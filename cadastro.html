@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDEnza — Criar Conta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #0B1A2F; color: #F5F0E8; font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center; min-height: 100vh;
+    }
+    .box {
+      background: #102A43; border: 1px solid #C87A4F; padding: 2.5rem; max-width: 400px; width: 90%;
+      text-align: center;
+    }
+    h2 { font-family: 'Playfair Display', serif; color: #C87A4F; margin-bottom: 1rem; }
+    .form-group { margin: 1rem 0; text-align: left; }
+    label { display: block; font-size: 0.8rem; color: #8A9CAF; text-transform: uppercase; margin-bottom: 0.3rem; }
+    input { width: 100%; padding: 0.7rem; background: #0B1A2F; border: 1px solid rgba(200,122,79,0.3); color: #F5F0E8; font-family: 'Inter'; }
+    .btn {
+      background: #C87A4F; color: white; border: none; padding: 0.8rem 2rem; width: 100%;
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; margin-top: 1rem;
+    }
+    .btn:hover { background: #a05a3a; }
+    .error { color: #b54a4a; font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
+    .success { color: #4caf50; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Criar Conta IDEnza</h2>
+    <div class="form-group">
+      <label>Nome completo</label>
+      <input type="text" id="name" placeholder="Seu nome" required>
+    </div>
+    <div class="form-group">
+      <label>E‑mail</label>
+      <input type="email" id="email" placeholder="seu@email.com" required>
+    </div>
+    <div class="form-group">
+      <label>Senha</label>
+      <input type="password" id="password" placeholder="Mínimo 4 caracteres" minlength="4" required>
+    </div>
+    <div class="error" id="msg"></div>
+    <button class="btn" id="registerBtn">Criar Conta</button>
+    <p style="font-size:0.7rem; color:#8A9CAF; margin-top:1rem;">Já tem conta? <a href="cliente.html" style="color:#C87A4F;">Faça login</a></p>
+  </div>
+  <script>
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const msg = document.getElementById('msg');
+      if (!name || !email || !password) { msg.textContent = 'Preencha todos os campos'; return; }
+      if (password.length < 4) { msg.textContent = 'A senha deve ter ao menos 4 caracteres'; return; }
+      msg.textContent = '⏳ Criando conta...';
+      msg.style.color = '#8A9CAF';
+      try {
+        const res = await fetch('https://idenza-new.avizaecosystem.workers.dev/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+        if (data.success) {
+          msg.style.color = '#4caf50';
+          msg.textContent = '✅ Conta criada! Redirecionando...';
+          setTimeout(() => { window.location.href = 'cliente.html'; }, 1500);
+        } else {
+          msg.style.color = '#b54a4a';
+          msg.textContent = data.error || 'Erro ao criar conta';
+        }
+      } catch (err) {
+        msg.style.color = '#b54a4a';
+        msg.textContent = 'Erro de conexão';
+      }
+    });
+  </script>
+</body>
+</html>
