@@ -950,6 +950,18 @@
     </div>
 
     <script>
+        // ========== FUNÇÕES AUXILIARES ==========
+        function formatarDataHora() {
+            const now = new Date();
+            const dia = String(now.getDate()).padStart(2, '0');
+            const mes = String(now.getMonth() + 1).padStart(2, '0');
+            const ano = now.getFullYear();
+            const hora = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const seg = String(now.getSeconds()).padStart(2, '0');
+            return `${dia}/${mes}/${ano}, ${hora}:${min}:${seg}`;
+        }
+
         const REDIS_CONFIG = {
             url: 'https://welcomed-satyr-116661.upstash.io',
             token: 'gQAAAAAAAce1AAIgcDFiNmUxOWVjY2E1Njk0MzQwOTI5NmExZWJlZGI1M2M1OQ'
@@ -1163,7 +1175,8 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             agenteSelecionado: null,
             estruturado: null,
             abaAtiva: null,
-            painelDetalheAberto: false
+            painelDetalheAberto: false,
+            detalheContexto: null   // { agente, areaId }
         };
 
         function renderizarGridArtes(container, agentes, areaId) {
@@ -1204,6 +1217,9 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             const gridContainer = document.getElementById(`grid-${areaId}`);
             if (!gridContainer) return;
 
+            // Guarda contexto para uso nos listeners globais
+            estadoGlobal.detalheContexto = { agente, areaId };
+
             const painel = document.createElement('div');
             painel.id = 'painelDetalheDinamico';
             painel.className = 'section';
@@ -1240,6 +1256,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             gridContainer.parentElement.appendChild(painel);
             estadoGlobal.painelDetalheAberto = true;
 
+            // Listeners que não precisam de delegação (botões de copiar/limpar)
             document.getElementById('btnCopiarPromptDetalhe').addEventListener('click', async () => {
                 const ok = await copiarTextoParaClipboard(agente.superPrompt || '');
                 document.getElementById('detalheStatusMsg').textContent = ok ? '✅ Super Prompt copiado!' : '❌ Falha.';
@@ -1253,34 +1270,9 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             document.getElementById('btnLimparJSONDetalhe').addEventListener('click', () => {
                 document.getElementById('detalheJSONPreview').textContent = '';
             });
-            document.getElementById('btnEstruturarDetalhe').addEventListener('click', () => {
-                const texto = document.getElementById('detalheRespostaIA').value.trim();
-                if (!texto) { document.getElementById('detalheStatusMsg').textContent = '⚠️ Cole a resposta da IA primeiro.'; return; }
-                const camadas = extrairCamadas(texto);
-                const l7 = camadas.find(c => c.nivel === 7);
-                const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo não disponível.';
-                const agora = new Date().toISOString();
-                const jsonResult = {
-                    codigo_universal: agente.codigo_universal,
-                    versao: 'v1',
-                    hash: toBase64(agente.codigo_universal + texto).substring(0, 16),
-                    escopo: { ...agente.escopo },
-                    conteudo: { resumo, camadas },
-                    indexacao: { ...agente.indexacao },
-                    governanca: { score_confianca: 0.85, autor: 'IDEnza', revisor: 'Arqueólogo Sênior', aprovado_por: 'Especialista', criado_em: agora, revisado_em: new Date(Date.now() + 90 * 86400000).toISOString().split('T')[0] },
-                    origem: { tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora, hash_original: toBase64(texto).substring(0, 20), uri_original: `/storage/${areaId}/${agente.escopo.topico.toLowerCase()}.md` },
-                    licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
-                };
-                estadoGlobal.estruturado = jsonResult;
-                document.getElementById('detalheCamadasPreview').style.display = 'block';
-                document.getElementById('detalheCamadasPreview').textContent = camadas.map(c => `Camada ${c.nivel}: ${c.nome} — ${c.subtemas.join(', ')}`).join('\n');
-                document.getElementById('detalheJSONPreview').style.display = 'block';
-                document.getElementById('detalheJSONPreview').textContent = JSON.stringify(jsonResult, null, 2);
-                document.getElementById('btnEnviarRedisDetalhe').style.display = 'inline-flex';
-                document.getElementById('detalheStatusMsg').textContent = '✅ Estruturado com sucesso!';
-                setTimeout(() => document.getElementById('detalheStatusMsg').textContent = '', 3000);
-                mostrarExplicacao({ fontes: ['IA Externa', 'Super Prompt IDEnza'], camadas, score_confianca: 0.85, alertaRevisao: jsonResult.governanca.revisado_em, codigo: jsonResult.codigo_universal });
-            });
+
+            // O listener do btnEstruturarDetalhe agora é tratado globalmente (ver document.addEventListener abaixo)
+            // O listener do btnEnviarRedisDetalhe também permanece local, pois o botão é recriado junto com o painel
             document.getElementById('btnEnviarRedisDetalhe').addEventListener('click', async () => {
                 if (!estadoGlobal.estruturado) return;
                 document.getElementById('detalheStatusMsg').textContent = 'Enviando...';
@@ -1315,10 +1307,11 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                 const response = await fetch(`${redisUrl}/set/${redisKey}`, { method: 'POST', headers: { 'Authorization': `Bearer ${REDIS_CONFIG.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(sanitizedPayload) });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 updateRedisStatus('connected');
+                const tamanho = JSON.stringify(sanitizedPayload).length;
+                const dataHora = formatarDataHora();
                 if (feedbackEl) {
                     feedbackEl.className = 'redis-feedback show success';
-                    const agora = new Date().toLocaleString('pt-BR');
-                    feedbackEl.innerHTML = `✅ <strong>Enviado com sucesso!</strong><br>📁 Chave: <code>${redisKey}</code><br>📏 Tamanho: ${JSON.stringify(sanitizedPayload).length} bytes<br>📅 Data e Hora: ${agora}`;
+                    feedbackEl.innerHTML = `✅ <strong>Enviado com sucesso!</strong><br>📁 Chave: <code>${redisKey}</code><br>📏 Tamanho: ${tamanho} bytes<br>📅 Data e Hora: ${dataHora}`;
                 }
                 return { sucesso: true, redisKey };
             } catch (error) { updateRedisStatus('disconnected'); if (feedbackEl) { feedbackEl.className = 'redis-feedback show error'; feedbackEl.innerHTML = `❌ Erro: ${error.message}`; } return { sucesso: false, erro: error.message }; }
@@ -1502,6 +1495,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                     const painel = document.getElementById('painelDetalheDinamico');
                     if (painel) painel.remove();
                     estadoGlobal.painelDetalheAberto = false;
+                    estadoGlobal.detalheContexto = null;
                 }
             });
 
@@ -1637,17 +1631,59 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             document.getElementById('btnEnviarPesquisaRedis').style.display = 'none';
         }
 
+        // ========== LISTENER GLOBAL PARA BOTÕES DINÂMICOS ==========
         document.addEventListener('click', (e) => {
+            // Estruturar no painel de detalhe (btnEstruturarDetalhe)
+            if (e.target.id === 'btnEstruturarDetalhe') {
+                if (!estadoGlobal.detalheContexto) {
+                    console.warn('Contexto do detalhe não definido.');
+                    return;
+                }
+                const { agente, areaId } = estadoGlobal.detalheContexto;
+                const texto = document.getElementById('detalheRespostaIA').value.trim();
+                if (!texto) {
+                    const statusEl = document.getElementById('detalheStatusMsg');
+                    if (statusEl) statusEl.textContent = '⚠️ Cole a resposta da IA primeiro.';
+                    return;
+                }
+                const camadas = extrairCamadas(texto);
+                const l7 = camadas.find(c => c.nivel === 7);
+                const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo não disponível.';
+                const agora = new Date().toISOString();
+                const jsonResult = {
+                    codigo_universal: agente.codigo_universal,
+                    versao: 'v1',
+                    hash: toBase64(agente.codigo_universal + texto).substring(0, 16),
+                    escopo: { ...agente.escopo },
+                    conteudo: { resumo, camadas },
+                    indexacao: { ...agente.indexacao },
+                    governanca: { score_confianca: 0.85, autor: 'IDEnza', revisor: 'Arqueólogo Sênior', aprovado_por: 'Especialista', criado_em: agora, revisado_em: new Date(Date.now() + 90 * 86400000).toISOString().split('T')[0] },
+                    origem: { tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora, hash_original: toBase64(texto).substring(0, 20), uri_original: `/storage/${areaId}/${agente.escopo.topico.toLowerCase()}.md` },
+                    licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
+                };
+                estadoGlobal.estruturado = jsonResult;
+                const camadasPreview = document.getElementById('detalheCamadasPreview');
+                const jsonPreview = document.getElementById('detalheJSONPreview');
+                const btnEnviar = document.getElementById('btnEnviarRedisDetalhe');
+                const statusMsg = document.getElementById('detalheStatusMsg');
+                if (camadasPreview) { camadasPreview.style.display = 'block'; camadasPreview.textContent = camadas.map(c => `Camada ${c.nivel}: ${c.nome} — ${c.subtemas.join(', ')}`).join('\n'); }
+                if (jsonPreview) { jsonPreview.style.display = 'block'; jsonPreview.textContent = JSON.stringify(jsonResult, null, 2); }
+                if (btnEnviar) btnEnviar.style.display = 'inline-flex';
+                if (statusMsg) { statusMsg.textContent = '✅ Estruturado com sucesso!'; setTimeout(() => { if (statusMsg) statusMsg.textContent = ''; }, 3000); }
+                mostrarExplicacao({ fontes: ['IA Externa', 'Super Prompt IDEnza'], camadas, score_confianca: 0.85, alertaRevisao: jsonResult.governanca.revisado_em, codigo: jsonResult.codigo_universal });
+            }
+
+            // Botões da aba de pesquisa
             if (e.target.id === 'btnCopiarPesquisaPrompt') {
                 const prompt = document.getElementById('pesquisaSuperPrompt').value;
                 copiarTextoParaClipboard(prompt).then(ok => {
-                    document.getElementById('pesquisaStatusMsg').textContent = ok ? '✅ Prompt copiado!' : '❌ Falha.';
-                    setTimeout(() => document.getElementById('pesquisaStatusMsg').textContent = '', 3000);
+                    const statusEl = document.getElementById('pesquisaStatusMsg');
+                    if (statusEl) { statusEl.textContent = ok ? '✅ Prompt copiado!' : '❌ Falha.'; setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000); }
                 });
             }
             if (e.target.id === 'btnEstruturarPesquisa') {
                 const texto = document.getElementById('pesquisaRespostaIA').value.trim();
-                if (!texto) { document.getElementById('pesquisaStatusMsg').textContent = '⚠️ Cole a resposta da IA.'; return; }
+                if (!texto) { const statusEl = document.getElementById('pesquisaStatusMsg'); if (statusEl) statusEl.textContent = '⚠️ Cole a resposta da IA.'; return; }
                 const camadas = extrairCamadas(texto);
                 const codigo = document.getElementById('pesquisaCodigo').textContent;
                 const agora = new Date().toISOString();
@@ -1672,7 +1708,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             if (e.target.id === 'btnEnviarPesquisaRedis') {
                 const json = document.getElementById('pesquisaJSONPreview').textContent;
                 if (!json) return;
-                try { const payload = JSON.parse(json); enviarDiretoRedis(payload, 'pesquisa', payload.codigo_universal, 'pesquisaFeedback'); } catch { document.getElementById('pesquisaStatusMsg').textContent = '❌ JSON inválido.'; }
+                try { const payload = JSON.parse(json); enviarDiretoRedis(payload, 'pesquisa', payload.codigo_universal, 'pesquisaFeedback'); } catch { const statusEl = document.getElementById('pesquisaStatusMsg'); if (statusEl) statusEl.textContent = '❌ JSON inválido.'; }
             }
         });
 
