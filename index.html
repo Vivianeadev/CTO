@@ -20,6 +20,7 @@
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
 
+        /* ===== ESTILOS DO MODAL DE SENHA ===== */
         .password-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -183,6 +184,7 @@
             transform: none !important;
         }
 
+        /* ===== INDICADOR DE SEGURANÇA ===== */
         .security-indicator {
             display: flex;
             align-items: center;
@@ -199,6 +201,7 @@
             color: rgba(184, 134, 11, 0.4);
         }
 
+        /* ===== RESPONSIVIDADE ===== */
         @media (max-width: 480px) {
             .password-box {
                 padding: 28px 20px;
@@ -292,19 +295,12 @@
 
     <script>
         // ========== CONFIGURAÇÕES ==========
-        // ROTA DO WORKER PARA ADMIN LOGIN (USA ACCESS_KEY)
+        // ROTA CORRETA DO WORKER PARA ADMIN LOGIN (USA ACCESS_KEY)
         const AUTH_WORKER_URL = 'https://idenza-new.avizaecosystem.workers.dev/api/admin/login';
         
-        // ===== CAMINHOS CORRIGIDOS PARA GITHUB PAGES =====
-        // Se todos os arquivos estão na RAIZ do repositório:
-        const URL_INICIAL = '/index.html';
-        const DESTINO_GESTAO = '/painel.html';
-        const DESTINO_PESQUISA = '/estacao_pesquisa.html';
-        
-        // Se estiver em uma SUBPASTA (ex: /site/), use:
-        // const URL_INICIAL = '/site/index.html';
-        // const DESTINO_GESTAO = '/site/painel.html';
-        // const DESTINO_PESQUISA = '/site/estacao_pesquisa.html';
+        const URL_INICIAL = '../index.html';
+        const DESTINO_GESTAO = 'painel.html';
+        const DESTINO_PESQUISA = 'painel.html';
 
         let overlay = null;
         let redirecionando = false;
@@ -421,8 +417,9 @@
 
                 const data = await response.json();
 
+                // ===== RESPOSTA CORRETA DO WORKER =====
                 // Worker retorna: { token: "..." } em caso de sucesso
-                // Worker retorna: { error: "..." } em caso de erro
+                // Worker retorna: { error: "Senha incorreta" } em caso de erro
                 
                 if (data.token) {
                     // ✅ SENHA CORRETA
