@@ -250,7 +250,7 @@
           <p style="font-size:0.6rem; color:#888;">Código: <span class="data-code-display" id="dataCodigoRastreio"></span></p>
           <p style="font-size:0.6rem; color:#888;">Fonte: <span id="dataFonte" style="font-weight:700;">—</span> | Revisão: <span id="dataAlertaRevisao" style="font-weight:700;">—</span></p>
           <div class="camadas-preview" id="dataCamadasPreview" style="border-left:4px solid #0d5c3a;"></div>
-          <div class="camadas-preview" id="dataCamadasPreview" style="border-left:4px solid #0d5c3a;"></div>
+          <div class="camadas-preview" id="dataCamadasPreview2" style="border-left:4px solid #0d5c3a; display:none;"></div>
           <div class="data-json-preview" id="dataJsonPreview" contenteditable="true"></div>
           <button class="btn btn-outline" id="btnLimparJSONData" style="margin-top:6px;">🗑️ Limpar JSON (cole o seu)</button>
           <div style="display:flex; gap:10px; margin-top:8px;">
@@ -915,8 +915,10 @@
         const resultado = await response.json();
         updateRedisStatus('connected');
         if (feedbackEl) {
+          const agora = new Date();
+          const dataHoraStr = agora.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
           feedbackEl.className = 'redis-feedback show success';
-          feedbackEl.innerHTML = `✅ <strong>Enviado com sucesso!</strong><br>📁 Chave Redis: <code>${redisKey}</code><br>📏 Tamanho: ${JSON.stringify(sanitizedPayload).length} bytes<br>🛡️ Validação: ${enhancedPayload.metadata.status_regulatorio}<br>🕐 Timestamp: ${new Date().toLocaleString('pt-BR')}`;
+          feedbackEl.innerHTML = `✅ <strong>Enviado com sucesso!</strong><br>📁 Chave: <code>${redisKey}</code><br>📏 Tamanho: ${JSON.stringify(sanitizedPayload).length} bytes<br>📅 Data e Hora: ${dataHoraStr}<br>🛡️ Validação: ${enhancedPayload.metadata.status_regulatorio}`;
         }
         return { sucesso: true, redisKey, resultado };
       } catch (error) {
@@ -1580,9 +1582,17 @@
     });
 
     document.getElementById('btnEstruturar').addEventListener('click', async function() {
-      if (!agenteSelecionado) return;
+      if (!agenteSelecionado) {
+        document.getElementById('statusMsg').textContent = '⚠️ Selecione um agente primeiro.';
+        setTimeout(()=>{document.getElementById('statusMsg').textContent='';},3000);
+        return;
+      }
       const texto = document.getElementById('respostaIA').value.trim();
-      if (!texto) return;
+      if (!texto) {
+        document.getElementById('statusMsg').textContent = '⚠️ Cole a resposta da IA antes de estruturar.';
+        setTimeout(()=>{document.getElementById('statusMsg').textContent='';},3000);
+        return;
+      }
 
       const depth = COGNITIVE_SYSTEM.depthControl.determineDepth(null, texto);
       const camadas = extrairCamadas(texto);
