@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Estação de Pesquisa — Criptoativos e Web3</title>
+  <style>
+    /* ==================== CSS COMPLETO (mantido exatamente igual ao original) ==================== */
+    :root {
+      --bg: #f8f5f0;
+      --card-bg: #ffffff;
+      --petroleum: #0d4f5c;
+      --petroleum-light: #1a6e7a;
+      --gold-dark: #8B6914;
+      --gold: #b8860b;
+      --gold-light: #e6c66a;
+      --text: #1e1e1e;
+      --text-soft: #555;
+      --border: #d0c8b8;
+      --shadow-sm: 2px 2px 6px rgba(0,0,0,0.08);
+      --shadow-md: 3px 3px 10px rgba(0,0,0,0.10);
+      --shadow-lg: 4px 4px 16px rgba(0,0,0,0.12);
+      --success: #0d5c3a;
+      --success-bg: #e0f5e8;
+      --warning: #b8860b;
+      --warning-bg: #fefce8;
+      --error: #b91c1c;
+      --error-bg: #fef2f2;
+      --font-mono: 'Fira Code', 'Courier New', monospace;
+      --crypto-blue: #1a4a6b;
+      --crypto-blue-light: #2a6a9b;
+      --web3-purple: #6b21a8;
+      --web3-purple-light: #9b4dca;
+      --defi-green: #0d5c3a;
+      --defi-green-light: #1a8a5a;
+      --nft-pink: #c2185b;
+      --nft-pink-light: #e91e63;
+      --dao-orange: #e65100;
+      --scroll-bg: #f5efe6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 16px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-left: 6px solid var(--crypto-blue);
+    }
+    header h1 { font-size: 1.3rem; font-weight: 600; color: var(--crypto-blue); letter-spacing: 1px; }
+    .badge { background: var(--gold-dark); color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-crypto { background: var(--crypto-blue); color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-web3 { background: var(--web3-purple); color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-defi { background: var(--defi-green); color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-nft { background: var(--nft-pink); color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-dao { background: var(--dao-orange); color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .redis-connection-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      box-shadow: var(--shadow-sm);
+    }
+    .redis-status-dot { width: 12px; height: 12px; border-radius: 50% !important; display: inline-block; }
+    .redis-status-dot.connected { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+    .redis-status-dot.disconnected { background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+    .redis-status-dot.sending { background: #eab308; animation: pulse 0.8s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .explain-panel {
+      background: var(--scroll-bg);
+      border: 1px solid var(--crypto-blue-light);
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-md);
+      display: none;
+      border-left: 4px solid var(--crypto-blue);
+    }
+    .explain-panel .section-title { margin-bottom: 10px; color: var(--crypto-blue); }
+    .explain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .explain-item strong { color: var(--crypto-blue); font-size: 0.7rem; }
+    .explain-item div { font-size: 0.75rem; color: #333; margin-top: 2px; }
+    .explain-confidence { font-size: 1.4rem; font-weight: 700; color: var(--gold-dark); margin-top: 4px; }
+    .explain-code { font-size: 0.65rem; color: #555; margin-top: 8px; font-family: var(--font-mono); }
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      margin-bottom: 0;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 12px 14px;
+      border: none;
+      background: #f0ece6;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      color: #666;
+      border-right: 1px solid var(--border);
+    }
+    .tab-btn:last-child { border-right: none; }
+    .tab-btn:hover { background: #e8e0d8; }
+    .tab-btn.active { background: var(--card-bg); color: var(--crypto-blue); border-bottom: 3px solid var(--gold-dark); box-shadow: inset 0 -3px 0 var(--gold-dark); }
+    .tab-btn.active.crypto-tab { color: var(--crypto-blue); border-bottom: 3px solid var(--crypto-blue); box-shadow: inset 0 -3px 0 var(--crypto-blue); }
+    .tab-btn.active.web3-tab { color: var(--web3-purple); border-bottom: 3px solid var(--web3-purple-light); box-shadow: inset 0 -3px 0 var(--web3-purple-light); }
+    .tab-btn.active.defi-tab { color: var(--defi-green); border-bottom: 3px solid var(--defi-green-light); box-shadow: inset 0 -3px 0 var(--defi-green-light); }
+    .tab-btn.active.nft-tab { color: var(--nft-pink); border-bottom: 3px solid var(--nft-pink-light); box-shadow: inset 0 -3px 0 var(--nft-pink-light); }
+    .tab-content { display: none; background: var(--card-bg); box-shadow: var(--shadow-md); border: 1px solid var(--border); border-top: none; padding: 20px; }
+    .tab-content.active { display: block; }
+    .section { background: var(--card-bg); box-shadow: var(--shadow-md); border: 1px solid var(--border); padding: 16px; margin-bottom: 16px; }
+    .section-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--crypto-blue); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .section-title.crypto-title { color: var(--crypto-blue); }
+    .section-title.web3-title { color: var(--web3-purple); }
+    .section-title.defi-title { color: var(--defi-green); }
+    .section-title.nft-title { color: var(--nft-pink); }
+    .section-title.dao-title { color: var(--dao-orange); }
+    .btn {
+      padding: 8px 18px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn:active { transform: translateY(1px); box-shadow: none; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-gold { background: var(--gold-dark); color: white; border: 1px solid #6a4f0a; }
+    .btn-outline { background: transparent; border: 1px solid var(--crypto-blue-light); color: var(--crypto-blue); }
+    .btn-crypto { background: var(--crypto-blue); color: white; border: 1px solid #0a2a4a; }
+    .btn-web3 { background: var(--web3-purple); color: white; border: 1px solid #4c1d7a; }
+    .btn-defi { background: var(--defi-green); color: white; border: 1px solid #064025; }
+    .btn-nft { background: var(--nft-pink); color: white; border: 1px solid #880e4f; }
+    .btn-dao { background: var(--dao-orange); color: white; border: 1px solid #bf360c; }
+    .btn-petroleum { background: var(--petroleum); color: white; border: 1px solid #0a3a44; }
+    .btn-data { background: #0d5c3a; color: white; border: 1px solid #064025; }
+    .btn-purple { background: #6b21a8; color: white; border: 1px solid #4c1d7a; }
+    .btn-gold:hover, .btn-crypto:hover, .btn-web3:hover, .btn-defi:hover, .btn-nft:hover, .btn-dao:hover, .btn-petroleum:hover, .btn-data:hover, .btn-purple:hover { opacity: 0.9; }
+    .btn-outline:hover { background: #f5efe6; }
+    .raw-textarea {
+      width: 100%;
+      min-height: 100px;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      resize: vertical;
+      color: var(--text);
+      box-shadow: inset 1px 1px 4px rgba(0,0,0,0.06);
+    }
+    .raw-textarea.crypto-textarea { min-height: 120px; border-left: 4px solid var(--crypto-blue); }
+    .raw-textarea.web3-textarea { min-height: 120px; border-left: 4px solid var(--web3-purple); }
+    .raw-textarea.defi-textarea { min-height: 120px; border-left: 4px solid var(--defi-green); }
+    .generated-question {
+      width: 100%;
+      min-height: 120px;
+      background: #f5efe6;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      margin-top: 8px;
+      box-shadow: inset 1px 1px 4px rgba(0,0,0,0.05);
+      color: #1e1e1e;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .camadas-preview {
+      background: #f5efe6;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 8px;
+      box-shadow: inset 1px 1px 4px rgba(0,0,0,0.05);
+      color: #1e1e1e;
+    }
+    .crypto-json-preview, .web3-json-preview, .defi-json-preview {
+      background: #f5efe6;
+      border: 1px solid #c4b0a0;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      white-space: pre-wrap;
+      max-height: 500px;
+      overflow-y: auto;
+      margin-top: 12px;
+      color: #1e1e1e;
+    }
+    .web3-json-preview { border-color: var(--web3-purple-light); }
+    .defi-json-preview { border-color: var(--defi-green-light); }
+    .status-msg { font-size: 0.7rem; color: var(--petroleum-light); margin-top: 6px; }
+    .redis-feedback {
+      padding: 10px 14px;
+      margin-top: 10px;
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      border-left: 4px solid var(--petroleum-light);
+      background: #f0f8f9;
+      display: none;
+      line-height: 1.6;
+    }
+    .redis-feedback.show { display: block; }
+    .redis-feedback.success { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+    .redis-feedback.error { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+    .redis-feedback.loading { border-color: var(--warning); background: var(--warning-bg); color: var(--warning); }
+    .expando {
+      border: 1px solid var(--border);
+      background: white;
+      box-shadow: var(--shadow-sm);
+      margin-top: 6px;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      max-height: 32px;
+    }
+    .expando.open { max-height: 600px; overflow-y: auto; }
+    .expando-toggle { padding: 6px 14px; font-size: 0.65rem; color: var(--text-soft); cursor: pointer; text-align: left; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; background: #fafafa; border-bottom: 1px solid transparent; }
+    .expando.open .expando-toggle { border-bottom-color: var(--border); }
+    .expando-body { padding: 10px 14px; font-size: 0.7rem; display: none; }
+    .expando.open .expando-body { display: block; }
+    .agent-select-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      padding: 6px;
+      background: #fafbfc;
+    }
+    .agent-select-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.75rem;
+      padding: 4px 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .agent-select-item:hover { background: #f5efe6; }
+    .agent-select-item input[type="radio"] { margin: 0; }
+    .hum-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .hum-type-card {
+      border: 1px solid var(--border);
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafdfd;
+      text-align: center;
+    }
+    .hum-type-card:hover { border-color: var(--crypto-blue); box-shadow: var(--shadow-md); background: #f5efe6; }
+    .hum-type-card.selected { border-color: var(--crypto-blue); background: #e0ecf0; box-shadow: var(--shadow-md); }
+    .hum-type-card .type-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+    .hum-type-card .type-name { font-size: 0.7rem; font-weight: 700; color: var(--crypto-blue); }
+    .hum-type-card .type-code { font-size: 0.5rem; color: #888; font-family: var(--font-mono); }
+    .hum-metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 8px; }
+    .hum-metric-item { background: #f5efe6; padding: 8px; border: 1px solid #d0c8b8; text-align: center; }
+    .hum-metric-item .label { font-size: 0.55rem; text-transform: uppercase; color: #888; letter-spacing: 1px; }
+    .hum-metric-item .value { font-size: 1.1rem; font-weight: 700; color: var(--crypto-blue); font-family: var(--font-mono); }
+    .hum-resposta-box { background: #fff; border: 1px solid var(--crypto-blue-light); padding: 16px; margin-top: 12px; font-size: 0.85rem; line-height: 1.6; color: #333; }
+    .hum-alert-box { padding: 12px 16px; margin: 8px 0; border-left: 5px solid #ccc; background: #f9f9f9; font-size: 0.75rem; }
+    .hum-alert-box.baixo { border-color: #22c55e; background: #f0fdf4; }
+    .hum-alert-box.medio { border-color: #eab308; background: #fefce8; }
+    .hum-alert-box.alto { border-color: #f97316; background: #fff7ed; }
+    .crypto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .crypto-card {
+      border: 1px solid #b0c4d4;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f0f7ff;
+      text-align: center;
+    }
+    .crypto-card:hover { border-color: var(--crypto-blue); box-shadow: var(--shadow-md); background: #e0f0ff; }
+    .crypto-card.selected { border-color: var(--crypto-blue); background: #cce0f0; box-shadow: var(--shadow-md); }
+    .crypto-card .crypto-icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+    .crypto-card .crypto-name { font-size: 0.7rem; font-weight: 700; color: var(--crypto-blue); }
+    .crypto-card .crypto-detail { font-size: 0.55rem; color: #888; font-family: var(--font-mono); margin-top: 4px; }
+    .crypto-card .crypto-network { font-size: 0.5rem; color: var(--crypto-blue); font-style: italic; margin-top: 2px; }
+    .crypto-progress-bar { width: 100%; height: 6px; background: #e0e0e0; margin: 4px 0; border-radius: 3px !important; overflow: hidden; }
+    .crypto-progress-bar .fill { height: 100%; background: var(--crypto-blue); transition: width 0.3s; }
+    .web3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .web3-card {
+      border: 1px solid var(--web3-purple-light);
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f8f0ff;
+      text-align: center;
+    }
+    .web3-card:hover { border-color: var(--web3-purple); box-shadow: var(--shadow-md); background: #f0e0ff; }
+    .web3-card.selected { border-color: var(--web3-purple); background: #e0d0f0; box-shadow: var(--shadow-md); }
+    .web3-card .web3-icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+    .web3-card .web3-name { font-size: 0.7rem; font-weight: 700; color: var(--web3-purple); }
+    .web3-card .web3-detail { font-size: 0.55rem; color: #888; font-family: var(--font-mono); margin-top: 4px; }
+    .web3-card .web3-protocol { font-size: 0.5rem; color: var(--web3-purple); font-style: italic; margin-top: 2px; }
+    .fabrica-tipo-btn.active { background: var(--crypto-blue); color: white; border: 1px solid #0a2a4a; }
+    .eng-payload-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-top: 8px; }
+    .eng-payload-table th { background: #f5efe6; padding: 8px 10px; text-align: left; color: var(--crypto-blue); border-bottom: 2px solid var(--crypto-blue-light); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .eng-payload-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text-soft); }
+    .multi-redis-hub { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+    @media (max-width: 800px) { .multi-redis-hub { grid-template-columns: 1fr; } }
+    .redis-cluster-panel { border: 2px solid #ccc; background: #fcfcfc; box-shadow: var(--shadow-lg); padding: 16px; }
+    .redis-cluster-panel.science-cluster { border-color: var(--crypto-blue-light); background: #f0f5f8; }
+    .redis-cluster-panel.ops-cluster { border-color: var(--web3-purple-light); background: #f8f0f8; }
+    .redis-slot-card {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s;
+    }
+    .redis-slot-card.connected { border-left: 5px solid #22c55e; background: #f9fef9; }
+    .redis-slot-card.disconnected { border-left: 5px solid #ef4444; background: #fef9f9; }
+    .redis-slot-card .slot-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .redis-slot-card .slot-name { font-weight: 700; font-size: 0.75rem; color: var(--text); font-family: var(--font-mono); flex: 1; min-width: 120px; }
+    .redis-slot-card .slot-name input { border: 1px solid transparent; background: transparent; font-weight: 700; font-size: 0.75rem; font-family: var(--font-mono); width: 100%; padding: 4px; color: var(--text); transition: border 0.2s; }
+    .redis-slot-card .slot-name input:focus { border-color: var(--border); background: #fff; outline: none; }
+    .redis-slot-dot { width: 10px; height: 10px; border-radius: 50% !important; display: inline-block; }
+    .redis-slot-dot.on { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.6); }
+    .redis-slot-dot.off { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.4); }
+    .redis-slot-dot.testing { background: #eab308; animation: pulse 0.8s infinite; }
+    .slot-credentials { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+    .slot-credentials input { border: 1px solid var(--border); padding: 5px 7px; font-family: var(--font-mono); font-size: 0.6rem; width: 100%; color: var(--text); }
+    .slot-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .mini-status-text { font-size: 0.55rem; color: #888; font-family: var(--font-mono); margin-top: 4px; }
+    .diretorio-interligado {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px dashed var(--border);
+      background: #f9f9f9;
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .diretorio-interligado .cluster-line { display: flex; align-items: center; gap: 4px; padding: 4px 8px; background: white; border: 1px solid var(--border); border-radius: 4px !important; font-size: 0.6rem; }
+    .cluster-line.science { border-color: var(--crypto-blue-light); color
