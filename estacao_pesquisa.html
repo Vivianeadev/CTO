@@ -9,35 +9,36 @@
 <body>
 
   <!-- ========== LINKS SUPERIORES (ESTAÇÕES) ========== -->
-  <div class="top-nav-stations">
-<a href="./eixos/estacao_agronegocio.html">Agronegócio</a>
-<a href="./eixos/estacao_arqueologia_e_patrimonio.html">Arqueologia e Patrimônio</a>
-<a href="./eixos/estacao_arquitetura_e_urbanismo.html">Arquitetura e Urbanismo</a>
-<a href="./eixos/estacao_artes.html">Artes</a>
-<a href="./eixos/estacao_astronomia_e_espaco.html">Astronomia e Espaço</a>
-<a href="./eixos/estacao_ciencias_biologicas.html">Ciências Biológicas</a>
-<a href="./eixos/estacao_ciencias_humanas.html">Ciências Humanas</a>
-<a href="./eixos/estacao_conhecimento_geral.html">Conhecimento Geral</a>
-<a href="./eixos/estacao_criptoativos_e_web3.html">Criptoativos e Web3</a>
-<a href="./eixos/estacao_cultura_e_sociedade.html">Cultura e Sociedade</a>
-<a href="./eixos/estacao_direito.html">Direito</a>
-<a href="./eixos/estacao_economia.html">Economia</a>
-<a href="./eixos/estacao_educacao.html">Educação</a>
-<a href="./eixos/estacao_engenharia.html">Engenharia</a>
-<a href="./eixos/estacao_fisica.html">Física</a>
-<a href="./eixos/estacao_inteligencia_artificial.html">Inteligência Artificial</a>
-<a href="./eixos/estacao_linguagens.html">Linguagens</a>
-<a href="./eixos/estacao_matematica.html">Matemática</a>
-<a href="./eixos/estacao_meio_ambiente.html">Meio Ambiente</a>
-<a href="./eixos/estacao_negocios.html">Negócios</a>
-<a href="./eixos/estacao_pesquisa_cientifica.html">Pesquisa Científica</a>
-<a href="./eixos/estacao_quimica.html">Química</a>
-<a href="./eixos/estacao_religiao_e_teologia.html">Religião e Teologia</a>
-<a href="./eixos/estacao_saude.html">Saúde</a>
-<a href="./eixos/estacao_seguranca.html">Segurança</a>
-<a href="./eixos/estacao_setor_imobiliario.html">Setor Imobiliário</a>
-<a href="./eixos/estacao_tecnologia.html">Tecnologia</a>
-<a href="./eixos/estacao_teologia.html">Teologia</a>
+<div class="top-nav-stations">
+  <a href="eixos/estacao_agronegocio.html">Agronegócio</a>
+  <a href="eixos/estacao_arqueologia_e_patrimonio.html">Arqueologia e Patrimônio</a>
+  <a href="eixos/estacao_arquitetura_e_urbanismo.html">Arquitetura e Urbanismo</a>
+  <a href="eixos/estacao_artes.html">Artes</a>
+  <a href="eixos/estacao_astronomia_e_espaco.html">Astronomia e Espaço</a>
+  <a href="eixos/estacao_ciencias_biologicas.html">Ciências Biológicas</a>
+  <a href="eixos/estacao_ciencias_humanas.html">Ciências Humanas</a>
+  <a href="eixos/estacao_conhecimento_geral.html">Conhecimento Geral</a>
+  <a href="eixos/estacao_criptoativos_e_web3.html">Criptoativos e Web3</a>
+  <a href="eixos/estacao_cultura_e_sociedade.html">Cultura e Sociedade</a>
+  <a href="eixos/estacao_direito.html">Direito</a>
+  <a href="eixos/estacao_economia.html">Economia</a>
+  <a href="eixos/estacao_educacao.html">Educação</a>
+  <a href="eixos/estacao_engenharia.html">Engenharia</a>
+  <a href="eixos/estacao_fisica.html">Física</a>
+  <a href="eixos/estacao_inteligencia_artificial.html">Inteligência Artificial</a>
+  <a href="eixos/estacao_linguagens.html">Linguagens</a>
+  <a href="eixos/estacao_matematica.html">Matemática</a>
+  <a href="eixos/estacao_meio_ambiente.html">Meio Ambiente</a>
+  <a href="eixos/estacao_negocios.html">Negócios</a>
+  <a href="eixos/estacao_pesquisa_cientifica.html">Pesquisa Científica</a>
+  <a href="eixos/estacao_quimica.html">Química</a>
+  <a href="eixos/estacao_religiao_e_teologia.html">Religião e Teologia</a>
+  <a href="eixos/estacao_saude.html">Saúde</a>
+  <a href="eixos/estacao_seguranca.html">Segurança</a>
+  <a href="eixos/estacao_setor_imobiliario.html">Setor Imobiliário</a>
+  <a href="eixos/estacao_tecnologia.html">Tecnologia</a>
+  <a href="eixos/estacao_teologia.html">Teologia</a>
+</div>
 
   <!-- ========== LINKS DE GOVERNANÇA E CLIENTE ========== -->
   <div class="top-nav-special">
@@ -2861,30 +2862,33 @@ async function detectEmotion(texto) {
     }).observe(document.getElementById('fabricaResultado'), { attributes: true, attributeFilter: ['style'] });
 
     // Enriquece os Humanoides com a nova lógica de personalização
-document.getElementById('btnProcessarHum').addEventListener('click', function(e) {
-    e.preventDefault();
-    if (!humanoideSelecionado) return;
-    const entrada = document.getElementById('humEntrada').value.trim();
-    const nomeUsuario = document.getElementById('humNomeUsuario')?.value?.trim() || '';
-    
-    if (!entrada || entrada.length < 5) {
+  document.getElementById('btnProcessarHum').addEventListener('click', function(e) {
+      e.preventDefault();
+      if (!humanoideSelecionado) return;
+      const entrada = document.getElementById('humEntrada').value.trim();
+      const nomeUsuario = document.getElementById('humNomeUsuario')?.value?.trim() || '';
+      
+      if (!entrada || entrada.length < 5) {
         document.getElementById('humStatusMsg').textContent = '❌ Insira uma descrição mais detalhada (mínimo 5 caracteres).';
         setTimeout(() => { document.getElementById('humStatusMsg').textContent = ''; }, 3000);
         return;
-    }
+      }
 
-    document.getElementById('humStatusMsg').textContent = 'Processando...';
-    
-    resultadoHum = processarHumanoide(entrada, humanoideSelecionado, nomeUsuario);
-    
-    if (resultadoHum) {
-        exibirResultadosHum(resultadoHum);
-        document.getElementById('humStatusMsg').textContent = '';
-    } else {
-        document.getElementById('humStatusMsg').textContent = '❌ Erro ao gerar resposta.';
-        setTimeout(() => { document.getElementById('humStatusMsg').textContent = ''; }, 3000);
-    }
-});
+      document.getElementById('humStatusMsg').textContent = 'Processando...';
+      
+      resultadoHum = processarHumanoide(entrada, humanoideSelecionado, nomeUsuario);
+      resultadoHum.emotional_profile = detectEmotion(entrada) || { summary: { dominant_category: 'neutral', valence: 0, arousal: 0 }, emotions: { neutral: 0.9 } };
+      
+      exibirResultadosHum(resultadoHum);
+      document.getElementById('humStatusMsg').textContent = '✅ Processado com sucesso!';
+      setTimeout(() => { document.getElementById('humStatusMsg').textContent = ''; }, 3000);
+      
+      MemoriaContextual.registrarInteracao(
+        nomeUsuario || 'Usuário',
+        resultadoHum.camada7_resposta,
+        { dominante: resultadoHum.emotional_profile.summary?.dominant_category || 'neutro' }
+      );
+    });
 
     console.log('✅ Motor EmotionML e Sistema de Personalização Humana ativos.');
     // ==================== PERSISTÊNCIA DA MEMÓRIA DO MONSTRÃO ====================
