@@ -20,7 +20,7 @@
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
 
-        /* ===== NOVOS ESTILOS PARA O MODAL DE SENHA ===== */
+        /* ===== ESTILOS DO MODAL DE SENHA ===== */
         .password-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -184,16 +184,6 @@
             transform: none !important;
         }
 
-        .password-btn .btn-cancel {
-            color: rgba(255,255,255,0.4);
-            border-color: rgba(255,255,255,0.1);
-        }
-
-        .password-btn .btn-cancel:hover:not(:disabled) {
-            background: rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.7);
-        }
-
         /* ===== INDICADOR DE SEGURANÇA ===== */
         .security-indicator {
             display: flex;
@@ -305,8 +295,8 @@
 
     <script>
         // ========== CONFIGURAÇÕES ==========
-        // Worker que valida a senha usando a ACCESS_KEY do Cloudflare Workers
-        const AUTH_WORKER_URL = 'https://idenza-new.avizaecosystem.workers.dev/auth/verify';
+        // ROTA CORRETA DO WORKER PARA ADMIN LOGIN (USA ACCESS_KEY)
+        const AUTH_WORKER_URL = 'https://idenza-new.avizaecosystem.workers.dev/api/admin/login';
         
         const URL_INICIAL = '../index.html';
         const DESTINO_GESTAO = 'painel.html';
@@ -334,8 +324,11 @@
             if (redirecionando) return;
             if (overlay) overlay.remove();
             
-            // Define o destino atual
             destinoAtual = destino || DESTINO_GESTAO;
+            
+            const nomeModulo = destinoAtual === DESTINO_GESTAO ? 'Gestão' : 
+                              destinoAtual === DESTINO_PESQUISA ? 'Pesquisa' : 
+                              destinoAtual.split('/').pop().replace('.html', '').toUpperCase();
             
             overlay = document.createElement('div');
             overlay.className = 'password-overlay';
@@ -343,13 +336,13 @@
                 <div class="password-box">
                     <h2><i class="fas fa-shield-haltered" style="color: #b8860b; margin-right: 8px;"></i>Portal IDEnza · Acesso Restrito</h2>
                     <div class="gold-line"></div>
-                    <p class="sub-text">🔐 Autenticação de dois fatores</p>
+                    <p class="sub-text">🔐 Autenticação · <span style="color:rgba(184,134,11,0.5);">${nomeModulo}</span></p>
                     <input type="password" id="senha" placeholder="Digite a senha de acesso" autofocus>
                     <div class="error-msg" id="erro"></div>
                     <div class="btn-row">
                         <div class="btn-group">
                             <button class="password-btn primary" id="btn-acessar">
-                                <i class="fas fa-unlock" style="margin-right: 8px;"></i>Acessar ${destino === DESTINO_GESTAO ? 'Gestão' : 'Pesquisa'}
+                                <i class="fas fa-unlock" style="margin-right: 8px;"></i>Acessar ${nomeModulo}
                             </button>
                         </div>
                         <button class="password-btn" id="cancelar" style="border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3);">
@@ -370,7 +363,6 @@
                 if (campo) campo.focus();
             }, 100);
             
-            // Eventos
             document.getElementById('btn-acessar').addEventListener('click', () => verificarSenha());
             document.getElementById('cancelar').addEventListener('click', fechar);
             document.getElementById('senha').addEventListener('keydown', (e) => {
@@ -409,7 +401,6 @@
                 return;
             }
 
-            // Desabilita botões durante verificação
             const botoes = document.querySelectorAll('.password-btn');
             botoes.forEach(b => b.disabled = true);
             
@@ -426,8 +417,12 @@
 
                 const data = await response.json();
 
-                if (data.success) {
-                    // ✅ SENHA CORRETA - Redireciona para o destino
+                // ===== RESPOSTA CORRETA DO WORKER =====
+                // Worker retorna: { token: "..." } em caso de sucesso
+                // Worker retorna: { error: "Senha incorreta" } em caso de erro
+                
+                if (data.token) {
+                    // ✅ SENHA CORRETA
                     redirecionando = true;
                     
                     erro.style.color = '#22c55e';
@@ -444,12 +439,10 @@
                     campo.value = '';
                     campo.focus();
                     
-                    // Efeito visual de erro
                     campo.style.animation = 'none';
                     campo.offsetHeight;
                     campo.style.animation = 'shake 0.5s ease-in-out';
                     
-                    // Reabilita botões
                     botoes.forEach(b => b.disabled = false);
                     btnAcessar.innerHTML = textoOriginal;
                 }
@@ -458,7 +451,6 @@
                 erro.style.color = '#c78b1a';
                 erro.textContent = '🔌 Erro de conexão com o servidor. Tente novamente.';
                 
-                // Reabilita botões
                 botoes.forEach(b => b.disabled = false);
                 btnAcessar.innerHTML = textoOriginal;
             }
@@ -468,49 +460,41 @@
         document.addEventListener('DOMContentLoaded', () => {
             redirecionando = false;
             
-            // SEMPRE mostra o aviso primeiro
             document.getElementById('avisoPopup').style.display = 'flex';
 
-            // Botão "Sim, sou funcionário" → mostra a splash
             document.getElementById('btnConfirmarFuncionario').addEventListener('click', () => {
                 if (redirecionando) return;
                 mostrarSplash();
             });
 
-            // Botão "Não, voltar" → volta ao início
             document.getElementById('btnNegarFuncionario').addEventListener('click', () => {
                 if (redirecionando) return;
                 voltarAoInicio();
             });
 
-            // Escape fecha o aviso
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && document.getElementById('avisoPopup').style.display === 'flex') {
                     voltarAoInicio();
                 }
             });
 
-            // Botão da splash → abre o modal com destino padrão (Gestão)
             document.getElementById('enterBtn').addEventListener('click', () => {
                 if (redirecionando) return;
-                // Abre o modal já com o destino padrão (Gestão)
-                // O usuário escolhe o destino depois
                 abrirModalSenha(DESTINO_GESTAO);
             });
         });
 
-        // Enter na splash também abre
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !overlay && !redirecionando && document.getElementById('superiaSplash').classList.contains('visible')) {
                 abrirModalSenha(DESTINO_GESTAO);
             }
         });
 
-        // ========== EXPOR FUNÇÃO PARA SER CHAMADA DE FORA (se necessário) ==========
+        // ========== EXPOR FUNÇÕES ==========
         window.IDEnzaAuth = {
             abrirModalSenha,
             fechar,
-            destinoAtual: () => destinoAtual,
+            getDestinoAtual: () => destinoAtual,
             setDestino: (destino) => { destinoAtual = destino; }
         };
     </script>
