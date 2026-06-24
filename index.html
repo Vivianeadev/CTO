@@ -19,6 +19,214 @@
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
+
+        /* ===== NOVOS ESTILOS PARA O MODAL DE SENHA ===== */
+        .password-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .password-overlay.fade-out {
+            animation: fadeOut 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+
+        .password-box {
+            background: linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            border: 1px solid rgba(184, 134, 11, 0.3);
+            border-radius: 20px;
+            padding: 40px 48px;
+            max-width: 520px;
+            width: 90%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(184, 134, 11, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .password-box::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.2), transparent, rgba(184, 134, 11, 0.2));
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .password-box h2 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 4px;
+            letter-spacing: 2px;
+        }
+
+        .password-box .gold-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #b8860b, transparent);
+            margin: 12px auto 16px;
+        }
+
+        .password-box .sub-text {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.6rem;
+            text-align: center;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .password-box input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(184, 134, 11, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .password-box input:focus {
+            border-color: #b8860b;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 30px rgba(184, 134, 11, 0.05);
+        }
+
+        .password-box input::placeholder {
+            color: rgba(255,255,255,0.25);
+            font-size: 0.8rem;
+        }
+
+        .password-box .error-msg {
+            font-size: 0.7rem;
+            min-height: 24px;
+            margin-top: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .password-box .btn-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .password-box .btn-row .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .password-box .btn-row .btn-group .password-btn {
+            flex: 1;
+        }
+
+        .password-btn {
+            padding: 12px 20px;
+            border: 1px solid rgba(184, 134, 11, 0.3);
+            border-radius: 10px;
+            background: transparent;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .password-btn:hover:not(:disabled) {
+            background: rgba(184, 134, 11, 0.12);
+            border-color: #b8860b;
+            transform: translateY(-2px);
+        }
+
+        .password-btn.primary {
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.2), rgba(184, 134, 11, 0.05));
+            border-color: rgba(184, 134, 11, 0.4);
+        }
+
+        .password-btn.primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.35), rgba(184, 134, 11, 0.1));
+            box-shadow: 0 0 30px rgba(184, 134, 11, 0.1);
+        }
+
+        .password-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .password-btn .btn-cancel {
+            color: rgba(255,255,255,0.4);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .password-btn .btn-cancel:hover:not(:disabled) {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* ===== INDICADOR DE SEGURANÇA ===== */
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .security-indicator i {
+            color: rgba(184, 134, 11, 0.4);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 480px) {
+            .password-box {
+                padding: 28px 20px;
+            }
+            .password-box h2 {
+                font-size: 1rem;
+            }
+            .password-box .btn-row .btn-group {
+                flex-direction: column;
+            }
+            .password-btn {
+                font-size: 0.65rem;
+                padding: 10px 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -97,7 +305,7 @@
 
     <script>
         // ========== CONFIGURAÇÕES ==========
-        // Worker que valida a senha (deve usar a variável de ambiente ACCESS_KEY)
+        // Worker que valida a senha usando a ACCESS_KEY do Cloudflare Workers
         const AUTH_WORKER_URL = 'https://idenza-new.avizaecosystem.workers.dev/auth/verify';
         
         const URL_INICIAL = '../index.html';
@@ -106,6 +314,7 @@
 
         let overlay = null;
         let redirecionando = false;
+        let destinoAtual = null;
 
         // ========== CAMADA 1 → CAMADA 2 ==========
         function mostrarSplash() {
@@ -121,9 +330,12 @@
         }
 
         // ========== CAMADA 3: MODAL DE SENHA ==========
-        function abrirModalSenha() {
+        function abrirModalSenha(destino) {
             if (redirecionando) return;
             if (overlay) overlay.remove();
+            
+            // Define o destino atual
+            destinoAtual = destino || DESTINO_GESTAO;
             
             overlay = document.createElement('div');
             overlay.className = 'password-overlay';
@@ -131,19 +343,22 @@
                 <div class="password-box">
                     <h2><i class="fas fa-shield-haltered" style="color: #b8860b; margin-right: 8px;"></i>Portal IDEnza · Acesso Restrito</h2>
                     <div class="gold-line"></div>
-                    <p style="color: rgb(255 255 255 / .5); font-size: .65rem; margin-bottom: 1.5rem; letter-spacing: 1px;">Selecione o módulo desejado</p>
+                    <p class="sub-text">🔐 Autenticação de dois fatores</p>
                     <input type="password" id="senha" placeholder="Digite a senha de acesso" autofocus>
                     <div class="error-msg" id="erro"></div>
                     <div class="btn-row">
-                        <button class="password-btn primary" id="btn-gestao">
-                            <i class="fas fa-user-shield" style="margin-right: 8px;"></i>Painel de Gestão
-                        </button>
-                        <button class="password-btn primary" id="btn-pesquisa">
-                            <i class="fas fa-flask" style="margin-right: 8px;"></i>Estação de Pesquisa
-                        </button>
-                        <button class="password-btn" id="cancelar">
+                        <div class="btn-group">
+                            <button class="password-btn primary" id="btn-acessar">
+                                <i class="fas fa-unlock" style="margin-right: 8px;"></i>Acessar ${destino === DESTINO_GESTAO ? 'Gestão' : 'Pesquisa'}
+                            </button>
+                        </div>
+                        <button class="password-btn" id="cancelar" style="border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3);">
                             <i class="fas fa-times" style="margin-right: 6px;"></i>Cancelar
                         </button>
+                    </div>
+                    <div class="security-indicator">
+                        <i class="fas fa-lock"></i>
+                        <span>Conexão segura · Worker Auth v2</span>
                     </div>
                 </div>
             `;
@@ -155,12 +370,11 @@
                 if (campo) campo.focus();
             }, 100);
             
-            // Cada botão abre seu próprio link individual
-            document.getElementById('btn-gestao').addEventListener('click', () => verificarSenha(DESTINO_GESTAO));
-            document.getElementById('btn-pesquisa').addEventListener('click', () => verificarSenha(DESTINO_PESQUISA));
+            // Eventos
+            document.getElementById('btn-acessar').addEventListener('click', () => verificarSenha());
             document.getElementById('cancelar').addEventListener('click', fechar);
             document.getElementById('senha').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') verificarSenha(DESTINO_GESTAO);
+                if (e.key === 'Enter') verificarSenha();
             });
             document.addEventListener('keydown', esc);
         }
@@ -181,7 +395,7 @@
         }
 
         // ========== VERIFICAÇÃO VIA WORKER ==========
-        async function verificarSenha(destino) {
+        async function verificarSenha() {
             if (redirecionando) return;
             
             const campo = document.getElementById('senha');
@@ -199,10 +413,9 @@
             const botoes = document.querySelectorAll('.password-btn');
             botoes.forEach(b => b.disabled = true);
             
-            const btnId = destino === DESTINO_GESTAO ? 'btn-gestao' : 'btn-pesquisa';
-            const btnAtivo = document.getElementById(btnId);
-            const textoOriginal = btnAtivo.innerHTML;
-            btnAtivo.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 6px;"></i>Verificando...';
+            const btnAcessar = document.getElementById('btn-acessar');
+            const textoOriginal = btnAcessar.innerHTML;
+            btnAcessar.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 6px;"></i>Verificando...';
 
             try {
                 const response = await fetch(AUTH_WORKER_URL, {
@@ -214,20 +427,18 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // SENHA CORRETA!
+                    // ✅ SENHA CORRETA - Redireciona para o destino
                     redirecionando = true;
                     
-                    // Feedback visual
                     erro.style.color = '#22c55e';
                     erro.textContent = '✅ Acesso autorizado! Redirecionando...';
                     
-                    // Redireciona após breve delay
                     setTimeout(() => {
-                        window.location.href = destino;
+                        window.location.href = destinoAtual;
                     }, 800);
                     
                 } else {
-                    // SENHA INCORRETA
+                    // ❌ SENHA INCORRETA
                     erro.style.color = '#c78b1a';
                     erro.textContent = '❌ ' + (data.error || 'Senha incorreta. Tente novamente.');
                     campo.value = '';
@@ -240,7 +451,7 @@
                     
                     // Reabilita botões
                     botoes.forEach(b => b.disabled = false);
-                    btnAtivo.innerHTML = textoOriginal;
+                    btnAcessar.innerHTML = textoOriginal;
                 }
             } catch (err) {
                 console.error('Erro de conexão:', err);
@@ -249,7 +460,7 @@
                 
                 // Reabilita botões
                 botoes.forEach(b => b.disabled = false);
-                btnAtivo.innerHTML = textoOriginal;
+                btnAcessar.innerHTML = textoOriginal;
             }
         }
 
@@ -257,16 +468,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             redirecionando = false;
             
-            // SEMPRE mostra o aviso primeiro - NÃO verifica sessão anterior
+            // SEMPRE mostra o aviso primeiro
             document.getElementById('avisoPopup').style.display = 'flex';
 
-            // Botão "Sim, sou funcionário"
+            // Botão "Sim, sou funcionário" → mostra a splash
             document.getElementById('btnConfirmarFuncionario').addEventListener('click', () => {
                 if (redirecionando) return;
                 mostrarSplash();
             });
 
-            // Botão "Não, voltar"
+            // Botão "Não, voltar" → volta ao início
             document.getElementById('btnNegarFuncionario').addEventListener('click', () => {
                 if (redirecionando) return;
                 voltarAoInicio();
@@ -279,19 +490,29 @@
                 }
             });
 
-            // Botão da splash abre o modal de senha
+            // Botão da splash → abre o modal com destino padrão (Gestão)
             document.getElementById('enterBtn').addEventListener('click', () => {
                 if (redirecionando) return;
-                abrirModalSenha();
+                // Abre o modal já com o destino padrão (Gestão)
+                // O usuário escolhe o destino depois
+                abrirModalSenha(DESTINO_GESTAO);
             });
         });
 
         // Enter na splash também abre
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !overlay && !redirecionando && document.getElementById('superiaSplash').classList.contains('visible')) {
-                abrirModalSenha();
+                abrirModalSenha(DESTINO_GESTAO);
             }
         });
+
+        // ========== EXPOR FUNÇÃO PARA SER CHAMADA DE FORA (se necessário) ==========
+        window.IDEnzaAuth = {
+            abrirModalSenha,
+            fechar,
+            destinoAtual: () => destinoAtual,
+            setDestino: (destino) => { destinoAtual = destino; }
+        };
     </script>
 </body>
 </html>
