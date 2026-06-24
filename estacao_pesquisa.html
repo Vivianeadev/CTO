@@ -2861,33 +2861,30 @@ async function detectEmotion(texto) {
     }).observe(document.getElementById('fabricaResultado'), { attributes: true, attributeFilter: ['style'] });
 
     // Enriquece os Humanoides com a nova lógica de personalização
-  document.getElementById('btnProcessarHum').addEventListener('click', function(e) {
-      e.preventDefault();
-      if (!humanoideSelecionado) return;
-      const entrada = document.getElementById('humEntrada').value.trim();
-      const nomeUsuario = document.getElementById('humNomeUsuario')?.value?.trim() || '';
-      
-      if (!entrada || entrada.length < 5) {
+document.getElementById('btnProcessarHum').addEventListener('click', function(e) {
+    e.preventDefault();
+    if (!humanoideSelecionado) return;
+    const entrada = document.getElementById('humEntrada').value.trim();
+    const nomeUsuario = document.getElementById('humNomeUsuario')?.value?.trim() || '';
+    
+    if (!entrada || entrada.length < 5) {
         document.getElementById('humStatusMsg').textContent = '❌ Insira uma descrição mais detalhada (mínimo 5 caracteres).';
         setTimeout(() => { document.getElementById('humStatusMsg').textContent = ''; }, 3000);
         return;
-      }
+    }
 
-      document.getElementById('humStatusMsg').textContent = 'Processando...';
-      
-      resultadoHum = processarHumanoide(entrada, humanoideSelecionado, nomeUsuario);
-      resultadoHum.emotional_profile = detectEmotion(entrada) || { summary: { dominant_category: 'neutral', valence: 0, arousal: 0 }, emotions: { neutral: 0.9 } };
-      
-      exibirResultadosHum(resultadoHum);
-      document.getElementById('humStatusMsg').textContent = '✅ Processado com sucesso!';
-      setTimeout(() => { document.getElementById('humStatusMsg').textContent = ''; }, 3000);
-      
-      MemoriaContextual.registrarInteracao(
-        nomeUsuario || 'Usuário',
-        resultadoHum.camada7_resposta,
-        { dominante: resultadoHum.emotional_profile.summary?.dominant_category || 'neutro' }
-      );
-    });
+    document.getElementById('humStatusMsg').textContent = 'Processando...';
+    
+    resultadoHum = processarHumanoide(entrada, humanoideSelecionado, nomeUsuario);
+    
+    if (resultadoHum) {
+        exibirResultadosHum(resultadoHum);
+        document.getElementById('humStatusMsg').textContent = '';
+    } else {
+        document.getElementById('humStatusMsg').textContent = '❌ Erro ao gerar resposta.';
+        setTimeout(() => { document.getElementById('humStatusMsg').textContent = ''; }, 3000);
+    }
+});
 
     console.log('✅ Motor EmotionML e Sistema de Personalização Humana ativos.');
     // ==================== PERSISTÊNCIA DA MEMÓRIA DO MONSTRÃO ====================
