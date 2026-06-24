@@ -979,28 +979,28 @@
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
         }
-		.top-nav-special {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 8px 16px;
-    background: #2d5a27;
-    border-bottom: 2px solid var(--gold-dark);
-}
-.top-nav-special a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.75rem;
-    padding: 6px 12px;
-    transition: 0.2s;
-    border-radius: 4px !important;
-}
-.top-nav-special a:hover {
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-}
+        .top-nav-special {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 8px 16px;
+            background: #2d5a27;
+            border-bottom: 2px solid var(--gold-dark);
+        }
+        .top-nav-special a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            transition: 0.2s;
+            border-radius: 4px !important;
+        }
+        .top-nav-special a:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -1109,43 +1109,8 @@
             <div id="teologiaGrid" class="theo-grid"></div>
         </div>
 
-        <!-- PAINEL DE DETALHE -->
-        <div class="section" id="teologiaDetalhe" style="display:none;">
-            <div class="section-title theo-title"><span>🌐</span> <span id="teologiaDetalheNome"></span></div>
-            <p style="font-size:0.6rem; color:#888;">Código: <span class="theo-code-display" id="teologiaDetalheCodigo"></span></p>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                <span class="badge-theo" id="teologiaDetalheLivro"></span>
-                <span class="badge" id="teologiaDetalheBloco"></span>
-                <span class="badge" style="background:#4a2a0a;color:white;" id="teologiaDetalheProgresso"></span>
-            </div>
-            <div style="margin-top:8px;"><div class="theo-progress-bar"><div class="fill" id="teologiaDetalheBarra" style="width:0%;"></div></div></div>
-
-            <div style="margin-top:16px; background:#e0f0f3; padding:16px; border-left:4px solid var(--theo-purple);">
-                <strong style="font-size:0.8rem;color:var(--theo-purple);">⚡ SUPER PROMPT — Instruções para IA:</strong>
-                <div id="teologiaDetalheSuperPrompt" style="font-size:0.7rem; font-family:var(--font-mono); white-space:pre-wrap; margin-top:8px; background:white; padding:12px; border:1px solid #a0c4c8; max-height:400px; overflow-y:auto;"></div>
-            </div>
-
-            <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-                <button class="btn btn-outline" id="btnCopiarTeologiaPrompt">📋 Copiar Super Prompt</button>
-                <button class="btn btn-outline" id="btnCopiarJSONTeologia">📋 Copiar JSON</button>
-            </div>
-
-            <div style="margin-top:16px;">
-                <label style="font-size:0.7rem; font-weight:700; color:var(--theo-purple); text-transform:uppercase; letter-spacing:1px; display:block;">📥 Cole a resposta da IA:</label>
-                <textarea class="raw-textarea theo-textarea" id="teologiaRespostaIA" placeholder="Cole o texto retornado pela IA..." style="min-height:150px;"></textarea>
-            </div>
-            <button class="btn btn-theo" id="btnEstruturarTeologia" style="margin-top:8px;">Estruturar nas 7 Camadas</button>
-
-            <div class="camadas-preview" id="teologiaCamadasPreview" style="display:none;"></div>
-            <div class="theo-json-preview" id="teologiaJSONPreview" contenteditable="true" style="display:none;"></div>
-            <button class="btn btn-outline" id="btnLimparTeologiaJSON" style="margin-top:6px;">🗑️ Limpar JSON</button>
-
-            <div style="margin-top:12px;">
-                <button class="btn btn-theo" id="btnEnviarTeologiaRedis" style="display:none;">Enviar para Redis</button>
-            </div>
-            <div class="redis-feedback" id="teologiaFeedbackDetalhe"></div>
-            <div class="status-msg" id="teologiaStatusDetalhe"></div>
-        </div>
+        <!-- PAINEL DE DETALHE (CRIADO DINAMICAMENTE PELO JAVASCRIPT) -->
+        <div id="teologiaDetalheContainer"></div>
     </div>
 
     <!-- ==================== TAB 2: LINGUÍSTICA & TRADUÇÃO ==================== -->
@@ -1170,41 +1135,8 @@
             <div id="arqueologiaGrid" class="arch-grid"></div>
         </div>
 
-        <!-- PAINEL DE DETALHE -->
-        <div class="section" id="arqueologiaDetalhe" style="display:none;">
-            <div class="section-title arch-title"><span>📖</span> <span id="arqueologiaDetalheNome"></span></div>
-            <p style="font-size:0.6rem; color:#888;">Código: <span class="arch-code-display" id="arqueologiaDetalheCodigo"></span></p>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                <span class="badge-arch" id="arqueologiaDetalheLocal"></span>
-                <span class="badge" style="background:#4a2a0a;color:white;" id="arqueologiaDetalhePeriodo"></span>
-            </div>
-
-            <div style="margin-top:16px; background:#f5ede0; padding:16px; border-left:4px solid var(--arch-sand);">
-                <strong style="font-size:0.8rem;color:#4a2a0a;">⚡ SUPER PROMPT — Instruções para IA:</strong>
-                <div id="arqueologiaDetalheSuperPrompt" style="font-size:0.7rem; font-family:var(--font-mono); white-space:pre-wrap; margin-top:8px; background:white; padding:12px; border:1px solid #d0c0a0; max-height:400px; overflow-y:auto;"></div>
-            </div>
-
-            <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-                <button class="btn btn-outline" id="btnCopiarArqueologiaPrompt">📋 Copiar Super Prompt</button>
-                <button class="btn btn-outline" id="btnCopiarJSONArqueologia">📋 Copiar JSON</button>
-            </div>
-
-            <div style="margin-top:16px;">
-                <label style="font-size:0.7rem; font-weight:700; color:#4a2a0a; text-transform:uppercase; letter-spacing:1px; display:block;">📥 Cole a resposta da IA:</label>
-                <textarea class="raw-textarea arch-textarea" id="arqueologiaRespostaIA" placeholder="Cole o texto retornado pela IA..." style="min-height:150px;"></textarea>
-            </div>
-            <button class="btn btn-arch" id="btnEstruturarArqueologia" style="margin-top:8px;">Estruturar nas 7 Camadas</button>
-
-            <div class="camadas-preview" id="arqueologiaCamadasPreview" style="display:none;"></div>
-            <div class="arch-json-preview" id="arqueologiaJSONPreview" contenteditable="true" style="display:none;"></div>
-            <button class="btn btn-outline" id="btnLimparArqueologiaJSON" style="margin-top:6px;">🗑️ Limpar JSON</button>
-
-            <div style="margin-top:12px;">
-                <button class="btn btn-arch" id="btnEnviarArqueologiaRedis" style="display:none;">Enviar para Redis</button>
-            </div>
-            <div class="redis-feedback" id="arqueologiaFeedbackDetalhe"></div>
-            <div class="status-msg" id="arqueologiaStatusDetalhe"></div>
-        </div>
+        <!-- PAINEL DE DETALHE (CRIADO DINAMICAMENTE PELO JAVASCRIPT) -->
+        <div id="arqueologiaDetalheContainer"></div>
     </div>
 
     <!-- ==================== TAB 3: HUMANOIDES ==================== -->
@@ -1382,6 +1314,15 @@
 
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
+        // ==================== FUNÇÃO toBase64 (CORREÇÃO 1) ====================
+        function toBase64(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            let binary = '';
+            data.forEach(byte => binary += String.fromCharCode(byte));
+            return btoa(binary);
+        }
+
         const REDIS_CONFIG = {
             url: 'https://welcomed-satyr-116661.upstash.io',
             token: 'gQAAAAAAAce1AAIgcDFiNmUxOWVjY2E1Njk0MzQwOTI5NmExZWJlZGI1M2M1OQ'
@@ -1595,7 +1536,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                 const agente = {
                     codigo_universal: codigo,
                     versao: 'v1',
-                    hash: btoa(`${codigo}-${new Date().toISOString()}`).substring(0, 16),
+                    hash: toBase64(`${codigo}-${new Date().toISOString()}`).substring(0, 16),
                     escopo: {
                         dominio: 'linguagens',
                         idioma: idioma,
@@ -1682,69 +1623,258 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                     document.querySelectorAll('.theo-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     agenteLinguagensSelecionado = a;
-                    exibirDetalheLinguagens(a);
+                    criarPainelDetalheLinguagens(a);
                 });
                 grid.appendChild(card);
             }
         }
 
-        function exibirDetalheLinguagens(a) {
-            const panel = document.getElementById('teologiaDetalhe');
+        // ==================== CRIAÇÃO DINÂMICA DO PAINEL DE DETALHE (CORREÇÃO 2) ====================
+        function criarPainelDetalheLinguagens(a) {
+            const container = document.getElementById('teologiaDetalheContainer');
+            if (!container) return;
+            
+            // Remove o painel anterior se existir
+            container.innerHTML = '';
+            
+            // Cria o painel dinamicamente
+            const panel = document.createElement('div');
+            panel.className = 'section';
+            panel.id = 'teologiaDetalhe';
             panel.style.display = 'block';
-            document.getElementById('teologiaDetalheNome').textContent = `${a.escopo.idioma} (Tópicos ${a.escopo.topico_inicio}-${a.escopo.topico_fim})`;
-            document.getElementById('teologiaDetalheCodigo').textContent = a.codigo_universal;
-            document.getElementById('teologiaDetalheLivro').textContent = `🌐 ${a.escopo.idioma} (${LANGUAGE_STACK[a.escopo.idioma]?.grupo || 'Linguagens'})`;
-            document.getElementById('teologiaDetalheBloco').textContent = `📋 ${a.escopo.idioma} Tópicos ${a.escopo.topico_inicio}-${a.escopo.topico_fim}`;
-            document.getElementById('teologiaDetalheProgresso').textContent = `${a.escopo.grupo} • ${a.escopo.idioma_doc}`;
+            
             const totalCaps = LANGUAGE_STACK[a.escopo.idioma]?.caps || 1;
             const progresso = ((a.escopo.topico_fim - a.escopo.topico_inicio + 1) / totalCaps) * 100;
-            document.getElementById('teologiaDetalheBarra').style.width = Math.min(progresso, 100) + '%';
             const prompt = gerarSuperPromptLinguagens(a.escopo.idioma, a.escopo.topico_inicio, a.escopo.topico_fim, TEMAS_POR_IDIOMA[a.escopo.idioma] || '');
-            document.getElementById('teologiaDetalheSuperPrompt').textContent = prompt;
-            document.getElementById('teologiaRespostaIA').value = '';
-            document.getElementById('teologiaCamadasPreview').style.display = 'none';
-            document.getElementById('teologiaJSONPreview').style.display = 'none';
-            document.getElementById('btnEnviarTeologiaRedis').style.display = 'none';
-            document.getElementById('teologiaFeedbackDetalhe').className = 'redis-feedback';
-            document.getElementById('teologiaStatusDetalhe').textContent = '';
-            linguagensEstruturado = null;
+            
+            panel.innerHTML = `
+                <div class="section-title theo-title"><span>🌐</span> <span id="teologiaDetalheNome">${a.escopo.idioma} (Tópicos ${a.escopo.topico_inicio}-${a.escopo.topico_fim})</span></div>
+                <p style="font-size:0.6rem; color:#888;">Código: <span class="theo-code-display" id="teologiaDetalheCodigo">${a.codigo_universal}</span></p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <span class="badge-theo" id="teologiaDetalheLivro">🌐 ${a.escopo.idioma} (${LANGUAGE_STACK[a.escopo.idioma]?.grupo || 'Linguagens'})</span>
+                    <span class="badge" id="teologiaDetalheBloco">📋 ${a.escopo.idioma} Tópicos ${a.escopo.topico_inicio}-${a.escopo.topico_fim}</span>
+                    <span class="badge" style="background:#4a2a0a;color:white;" id="teologiaDetalheProgresso">${a.escopo.grupo} • ${a.escopo.idioma_doc}</span>
+                </div>
+                <div style="margin-top:8px;"><div class="theo-progress-bar"><div class="fill" id="teologiaDetalheBarra" style="width:${Math.min(progresso, 100)}%;"></div></div></div>
+
+                <div style="margin-top:16px; background:#e0f0f3; padding:16px; border-left:4px solid var(--theo-purple);">
+                    <strong style="font-size:0.8rem;color:var(--theo-purple);">⚡ SUPER PROMPT — Instruções para IA:</strong>
+                    <div id="teologiaDetalheSuperPrompt" style="font-size:0.7rem; font-family:var(--font-mono); white-space:pre-wrap; margin-top:8px; background:white; padding:12px; border:1px solid #a0c4c8; max-height:400px; overflow-y:auto;">${prompt}</div>
+                </div>
+
+                <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-outline" id="btnCopiarTeologiaPrompt">📋 Copiar Super Prompt</button>
+                    <button class="btn btn-outline" id="btnCopiarJSONTeologia">📋 Copiar JSON</button>
+                </div>
+
+                <div style="margin-top:16px;">
+                    <label style="font-size:0.7rem; font-weight:700; color:var(--theo-purple); text-transform:uppercase; letter-spacing:1px; display:block;">📥 Cole a resposta da IA:</label>
+                    <textarea class="raw-textarea theo-textarea" id="teologiaRespostaIA" placeholder="Cole o texto retornado pela IA..." style="min-height:150px;"></textarea>
+                </div>
+                <button class="btn btn-theo" id="btnEstruturarDetalhe" style="margin-top:8px;">Estruturar nas 7 Camadas</button>
+
+                <div class="camadas-preview" id="teologiaCamadasPreview" style="display:none;"></div>
+                <div class="theo-json-preview" id="teologiaJSONPreview" contenteditable="true" style="display:none;"></div>
+                <button class="btn btn-outline" id="btnLimparTeologiaJSON" style="margin-top:6px;">🗑️ Limpar JSON</button>
+
+                <div style="margin-top:12px;">
+                    <button class="btn btn-theo" id="btnEnviarTeologiaRedis" style="display:none;">Enviar para Redis</button>
+                </div>
+                <div class="redis-feedback" id="teologiaFeedbackDetalhe"></div>
+                <div class="status-msg" id="teologiaStatusDetalhe"></div>
+            `;
+            
+            container.appendChild(panel);
+            
+            // Configura os event listeners para o painel recém-criado (CORREÇÃO 3)
+            configurarEventListenersDetalheLinguagens(a);
         }
 
-        // ==================== EXTRAIR CAMADAS ====================
+        // ==================== CONFIGURAÇÃO DOS EVENT LISTENERS DO PAINEL DE DETALHE ====================
+        function configurarEventListenersDetalheLinguagens(a) {
+            // Botão Copiar Super Prompt
+            const btnCopiarPrompt = document.getElementById('btnCopiarTeologiaPrompt');
+            if (btnCopiarPrompt) {
+                btnCopiarPrompt.addEventListener('click', async function() {
+                    const statusEl = document.getElementById('teologiaStatusDetalhe');
+                    const prompt = gerarSuperPromptLinguagens(
+                        a.escopo.idioma,
+                        a.escopo.topico_inicio,
+                        a.escopo.topico_fim,
+                        TEMAS_POR_IDIOMA[a.escopo.idioma] || ''
+                    );
+                    const ok = await copiarTextoParaClipboard(prompt);
+                    statusEl.textContent = ok ? '✅ Super Prompt copiado!' : '❌ Falha ao copiar.';
+                    setTimeout(() => statusEl.textContent = '', 4000);
+                });
+            }
+            
+            // Botão Copiar JSON
+            const btnCopiarJSON = document.getElementById('btnCopiarJSONTeologia');
+            if (btnCopiarJSON) {
+                btnCopiarJSON.addEventListener('click', async () => {
+                    const statusEl = document.getElementById('teologiaStatusDetalhe');
+                    const ok = await copiarTextoParaClipboard(JSON.stringify(a, null, 2));
+                    statusEl.textContent = ok ? '✅ JSON copiado!' : '❌ Falha ao copiar.';
+                    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+                });
+            }
+            
+            // Botão Limpar JSON
+            const btnLimparJSON = document.getElementById('btnLimparTeologiaJSON');
+            if (btnLimparJSON) {
+                btnLimparJSON.addEventListener('click', () => {
+                    const jsonPreview = document.getElementById('teologiaJSONPreview');
+                    if (jsonPreview) jsonPreview.textContent = '';
+                });
+            }
+            
+            // Botão Estruturar nas 7 Camadas (CORREÇÃO PRINCIPAL)
+            const btnEstruturar = document.getElementById('btnEstruturarDetalhe');
+            if (btnEstruturar) {
+                btnEstruturar.addEventListener('click', () => {
+                    const statusEl = document.getElementById('teologiaStatusDetalhe');
+                    if (!statusEl) return;
+                    
+                    const texto = document.getElementById('teologiaRespostaIA')?.value?.trim();
+                    if (!texto) { 
+                        statusEl.textContent = '⚠️ Cole a resposta da IA.'; 
+                        return; 
+                    }
+                    
+                    try {
+                        const camadas = extrairCamadas(texto);
+                        const l7 = camadas.find(c => c.nivel === 7);
+                        const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo não disponível.';
+                        const codigo = a.codigo_universal;
+                        const agora = new Date().toISOString();
+                        const jsonResult = {
+                            codigo_universal: codigo, 
+                            versao: 'v1', 
+                            hash: toBase64(codigo + texto).substring(0, 16),
+                            escopo: {
+                                dominio: a.escopo.dominio,
+                                idioma: a.escopo.idioma,
+                                topico_inicio: a.escopo.topico_inicio,
+                                topico_fim: a.escopo.topico_fim,
+                                idioma_doc: a.escopo.idioma_doc,
+                                grupo: a.escopo.grupo
+                            },
+                            conteudo: { resumo, camadas },
+                            indexacao: { 
+                                tags: a.indexacao.tags, 
+                                palavras_chave: a.indexacao.palavras_chave 
+                            },
+                            governanca: {
+                                score_confianca: 0.85, 
+                                autor: 'IDEnza', 
+                                revisor: 'Professor Doutor em Linguística', 
+                                aprovado_por: 'Conselho Acadêmico',
+                                criado_em: agora, 
+                                revisado_em: new Date(Date.now() + 90*86400000).toISOString().split('T')[0]
+                            },
+                            origem: {
+                                tipo: 'ia_externa', 
+                                modelo: 'DeepSeek', 
+                                data_geracao: agora,
+                                hash_original: toBase64(texto).substring(0, 20),
+                                uri_original: `/storage/languages/${a.escopo.idioma.toLowerCase()}/${a.escopo.topico_inicio}-${a.escopo.topico_fim}.md`
+                            },
+                            licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
+                        };
+                        linguagensEstruturado = jsonResult;
+                        
+                        const preview = document.getElementById('teologiaCamadasPreview');
+                        if (preview) {
+                            preview.style.display = 'block';
+                            preview.textContent = camadas.map(c => `Camada ${c.nivel}: ${c.nome} — ${c.subtemas.join(', ')}`).join('\n');
+                        }
+                        
+                        const jsonPreview = document.getElementById('teologiaJSONPreview');
+                        if (jsonPreview) {
+                            jsonPreview.style.display = 'block';
+                            jsonPreview.textContent = JSON.stringify(jsonResult, null, 2);
+                        }
+                        
+                        const btnRedis = document.getElementById('btnEnviarTeologiaRedis');
+                        if (btnRedis) btnRedis.style.display = 'inline-flex';
+                        
+                        statusEl.textContent = '✅ Estruturado com sucesso!';
+                        setTimeout(() => { statusEl.textContent = ''; }, 3000);
+                        
+                        mostrarExplicacao({ 
+                            fontes: ['IA Externa', 'Super Prompt IDEnza'], 
+                            camadas, 
+                            score_confianca: 0.85, 
+                            alertaRevisao: jsonResult.governanca.revisado_em, 
+                            codigo: jsonResult.codigo_universal 
+                        });
+                    } catch (error) {
+                        statusEl.textContent = '❌ Erro ao estruturar: ' + error.message;
+                        console.error('Erro ao estruturar:', error);
+                    }
+                });
+            }
+            
+            // Botão Enviar para Redis
+            const btnRedis = document.getElementById('btnEnviarTeologiaRedis');
+            if (btnRedis) {
+                btnRedis.addEventListener('click', async () => {
+                    if (!linguagensEstruturado) return;
+                    await enviarDiretoRedis(linguagensEstruturado, 'linguagens', linguagensEstruturado.codigo_universal, 'teologiaFeedbackDetalhe');
+                    const statusEl = document.getElementById('teologiaStatusDetalhe');
+                    if (statusEl) {
+                        statusEl.textContent = 'Concluído.';
+                        setTimeout(() => { statusEl.textContent = ''; }, 3000);
+                    }
+                });
+            }
+        }
+
+        // ==================== EXTRAIR CAMADAS (CORRIGIDO - CORREÇÃO 4) ====================
         function extrairCamadas(texto) {
             if (!texto || typeof texto !== 'string') return [];
+            
+            // Primeiro, tenta extrair do JSON
             try {
                 const jsonMatch = texto.match(/\{[\s\S]*"camadas"[\s\S]*\}/);
                 if (jsonMatch) {
                     const obj = JSON.parse(jsonMatch[0]);
                     if (obj.camadas && Array.isArray(obj.camadas) && obj.camadas.length > 0) {
                         return obj.camadas.map(c => ({
-                            nivel: c.nivel,
-                            nome: c.nome,
+                            nivel: c.nivel || 0,
+                            nome: c.nome || `Camada ${c.nivel}`,
                             subtemas: Array.isArray(c.subtemas) ? c.subtemas.filter(s => s) : [],
                             referencias: c.referencias || [],
                             fontes: c.fontes || []
                         }));
                     }
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.log('Falha ao extrair JSON, tentando por título:', e);
+            }
+
+            // Se falhar, tenta extrair por padrões de título
             const linhas = texto.split('\n').map(l => l.trim()).filter(l => l);
             const camadas = [];
             let camadaAtual = null;
             const titulos = [
-                { nivel: 7, regex: /\b(7|sete)[\.\)\-\s:]*\s*(ESS[EÊ]NCIA|ESSENCE|FUNDAMENTO|PRINC[IÍ]PIO|CENTRAL|IMUT[AÁ]VEL|L[IÍ]NGUA)/i, nome: 'Essência da Língua' },
-                { nivel: 6, regex: /\b(6|seis)[\.\)\-\s:]*\s*(ESTRUTURA|GRAM[AÁ]TICA|SINTAXE|MORFOLOGIA|REGRAS)/i, nome: 'Estruturas e Gramática' },
-                { nivel: 5, regex: /\b(5|cinco)[\.\)\-\s:]*\s*(VARIA[CÇ][AÃ]O|USO|CONTEXTOS|SOCIOLINGU|DIALETOS)/i, nome: 'Variação e Uso' },
-                { nivel: 4, regex: /\b(4|quatro)[\.\)\-\s:]*\s*(CULTURAL|LITER[AÁ]RIO|CONTEXTO|CULTURA|LITERATURA)/i, nome: 'Contexto Cultural e Literário' },
-                { nivel: 3, regex: /\b(3|tr[EÊ]s)[\.\)\-\s:]*\s*(M[EÉ]TODOS|AN[AÁ]LISE|ENSINO|ABORDAGENS|FERRAMENTAS)/i, nome: 'Métodos de Análise e Ensino' },
-                { nivel: 2, regex: /\b(2|dois)[\.\)\-\s:]*\s*(APRENDIZAGEM|PR[AÁ]TICA|DICAS|RECURSOS|IMERS[AÃ]O)/i, nome: 'Aprendizagem e Prática' },
-                { nivel: 1, regex: /\b(1|um)[\.\)\-\s:]*\s*(CURIOSIDADES|FATOS|INTERESSANTES|R[AÁ]PIDAS|ORIGEM)/i, nome: 'Curiosidades e Fatos Interessantes' }
+                { nivel: 7, regex: /(7|sete)[\.\)\-\s:]*\s*(ESS[EÊ]NCIA|ESSENCE|FUNDAMENTO|PRINC[IÍ]PIO|CENTRAL|IMUT[AÁ]VEL|L[IÍ]NGUA)/i, nome: 'Essência da Língua' },
+                { nivel: 6, regex: /(6|seis)[\.\)\-\s:]*\s*(ESTRUTURA|GRAM[AÁ]TICA|SINTAXE|MORFOLOGIA|REGRAS)/i, nome: 'Estruturas e Gramática' },
+                { nivel: 5, regex: /(5|cinco)[\.\)\-\s:]*\s*(VARIA[CÇ][AÃ]O|USO|CONTEXTOS|SOCIOLINGU|DIALETOS)/i, nome: 'Variação e Uso' },
+                { nivel: 4, regex: /(4|quatro)[\.\)\-\s:]*\s*(CULTURAL|LITER[AÁ]RIO|CONTEXTO|CULTURA|LITERATURA)/i, nome: 'Contexto Cultural e Literário' },
+                { nivel: 3, regex: /(3|tr[EÊ]s)[\.\)\-\s:]*\s*(M[EÉ]TODOS|AN[AÁ]LISE|ENSINO|ABORDAGENS|FERRAMENTAS)/i, nome: 'Métodos de Análise e Ensino' },
+                { nivel: 2, regex: /(2|dois)[\.\)\-\s:]*\s*(APRENDIZAGEM|PR[AÁ]TICA|DICAS|RECURSOS|IMERS[AÃ]O)/i, nome: 'Aprendizagem e Prática' },
+                { nivel: 1, regex: /(1|um)[\.\)\-\s:]*\s*(CURIOSIDADES|FATOS|INTERESSANTES|R[AÁ]PIDAS|ORIGEM)/i, nome: 'Curiosidades e Fatos Interessantes' }
             ];
+
             for (const linha of linhas) {
                 let match = null;
                 for (const t of titulos) {
-                    const m = linha.match(t.regex);
-                    if (m) { match = { nivel: t.nivel, nome: t.nome }; break; }
+                    if (t.regex.test(linha)) {
+                        match = { nivel: t.nivel, nome: t.nome };
+                        break;
+                    }
                 }
                 if (match) {
                     const existente = camadas.findIndex(c => c.nivel === match.nivel);
@@ -1753,16 +1883,19 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                     camadas.push(camadaAtual);
                 } else if (camadaAtual) {
                     const limpo = linha.replace(/^[-*#\s]+/, '').trim();
-                    if (limpo.length > 0 && !/^---+$/.test(limpo) && !/^\*\*?[\s\*]*$/.test(limpo)) {
+                    if (limpo.length > 3 && !/^---+$/.test(limpo) && !/^\*\*?[\s\*]*$/.test(limpo)) {
                         camadaAtual.subtemas.push(limpo);
                     }
                 }
             }
+
+            // Garante que todas as camadas existam
             for (const t of titulos) {
                 if (!camadas.find(c => c.nivel === t.nivel)) {
                     camadas.push({ nivel: t.nivel, nome: t.nome, subtemas: ['Conteúdo não encontrado na resposta.'], referencias: [], fontes: [] });
                 }
             }
+            
             camadas.sort((a, b) => b.nivel - a.nivel);
             return camadas;
         }
@@ -1777,83 +1910,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             atualizarCatalogoPesquisa();
         });
 
-        document.getElementById('btnCopiarTeologiaPrompt').addEventListener('click', async function() {
-            const statusEl = document.getElementById('teologiaStatusDetalhe');
-            if (!agenteLinguagensSelecionado) {
-                statusEl.textContent = '⚠️ Selecione um agente primeiro.';
-                setTimeout(() => statusEl.textContent = '', 3000);
-                return;
-            }
-            const prompt = gerarSuperPromptLinguagens(
-                agenteLinguagensSelecionado.escopo.idioma,
-                agenteLinguagensSelecionado.escopo.topico_inicio,
-                agenteLinguagensSelecionado.escopo.topico_fim,
-                TEMAS_POR_IDIOMA[agenteLinguagensSelecionado.escopo.idioma] || ''
-            );
-            const ok = await copiarTextoParaClipboard(prompt);
-            statusEl.textContent = ok ? '✅ Super Prompt copiado!' : '❌ Falha ao copiar.';
-            setTimeout(() => statusEl.textContent = '', 4000);
-        });
-
-        document.getElementById('btnCopiarJSONTeologia').addEventListener('click', async () => {
-            if (!agenteLinguagensSelecionado) { document.getElementById('teologiaStatusDetalhe').textContent = '⚠️ Selecione um agente.'; return; }
-            const ok = await copiarTextoParaClipboard(JSON.stringify(agenteLinguagensSelecionado, null, 2));
-            document.getElementById('teologiaStatusDetalhe').textContent = ok ? '✅ JSON copiado!' : '❌ Falha ao copiar.';
-            setTimeout(() => { document.getElementById('teologiaStatusDetalhe').textContent = ''; }, 3000);
-        });
-
         document.getElementById('teologiaFiltro').addEventListener('input', () => { renderizarLinguagens(agentesLinguagens); });
-        document.getElementById('btnLimparTeologiaJSON').addEventListener('click', () => { document.getElementById('teologiaJSONPreview').textContent = ''; });
-
-        document.getElementById('btnEstruturarTeologia').addEventListener('click', () => {
-            if (!agenteLinguagensSelecionado) { document.getElementById('teologiaStatusDetalhe').textContent = '⚠️ Selecione um agente.'; return; }
-            const texto = document.getElementById('teologiaRespostaIA').value.trim();
-            if (!texto) { document.getElementById('teologiaStatusDetalhe').textContent = '⚠️ Cole a resposta da IA.'; return; }
-            const camadas = extrairCamadas(texto);
-            const l7 = camadas.find(c => c.nivel === 7);
-            const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo não disponível.';
-            const codigo = agenteLinguagensSelecionado.codigo_universal;
-            const agora = new Date().toISOString();
-            const jsonResult = {
-                codigo_universal: codigo, versao: 'v1', hash: btoa(codigo + texto).substring(0, 16),
-                escopo: {
-                    dominio: agenteLinguagensSelecionado.escopo.dominio,
-                    idioma: agenteLinguagensSelecionado.escopo.idioma,
-                    topico_inicio: agenteLinguagensSelecionado.escopo.topico_inicio,
-                    topico_fim: agenteLinguagensSelecionado.escopo.topico_fim,
-                    idioma_doc: agenteLinguagensSelecionado.escopo.idioma_doc,
-                    grupo: agenteLinguagensSelecionado.escopo.grupo
-                },
-                conteudo: { resumo, camadas },
-                indexacao: { tags: agenteLinguagensSelecionado.indexacao.tags, palavras_chave: agenteLinguagensSelecionado.indexacao.palavras_chave },
-                governanca: {
-                    score_confianca: 0.85, autor: 'IDEnza', revisor: 'Professor Doutor em Linguística', aprovado_por: 'Conselho Acadêmico',
-                    criado_em: agora, revisado_em: new Date(Date.now() + 90*86400000).toISOString().split('T')[0]
-                },
-                origem: {
-                    tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora,
-                    hash_original: btoa(texto).substring(0, 20),
-                    uri_original: `/storage/languages/${agenteLinguagensSelecionado.escopo.idioma.toLowerCase()}/${agenteLinguagensSelecionado.escopo.topico_inicio}-${agenteLinguagensSelecionado.escopo.topico_fim}.md`
-                },
-                licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
-            };
-            linguagensEstruturado = jsonResult;
-            document.getElementById('teologiaCamadasPreview').style.display = 'block';
-            document.getElementById('teologiaCamadasPreview').textContent = camadas.map(c => `Camada ${c.nivel}: ${c.nome} — ${c.subtemas.join(', ')}`).join('\n');
-            document.getElementById('teologiaJSONPreview').style.display = 'block';
-            document.getElementById('teologiaJSONPreview').textContent = JSON.stringify(jsonResult, null, 2);
-            document.getElementById('btnEnviarTeologiaRedis').style.display = 'inline-flex';
-            document.getElementById('teologiaStatusDetalhe').textContent = '✅ Estruturado com sucesso!';
-            setTimeout(() => { document.getElementById('teologiaStatusDetalhe').textContent = ''; }, 3000);
-            mostrarExplicacao({ fontes: ['IA Externa', 'Super Prompt IDEnza'], camadas, score_confianca: 0.85, alertaRevisao: jsonResult.governanca.revisado_em, codigo: jsonResult.codigo_universal });
-        });
-
-        document.getElementById('btnEnviarTeologiaRedis').addEventListener('click', async () => {
-            if (!linguagensEstruturado) return;
-            await enviarDiretoRedis(linguagensEstruturado, 'linguagens', linguagensEstruturado.codigo_universal, 'teologiaFeedbackDetalhe');
-            document.getElementById('teologiaStatusDetalhe').textContent = 'Concluído.';
-            setTimeout(() => { document.getElementById('teologiaStatusDetalhe').textContent = ''; }, 3000);
-        });
 
         // ==================== ESCOLAS E TEORIAS LINGUÍSTICAS ====================
         const ESCOLAS_LINGUISTICAS = [
@@ -1939,7 +1996,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                 return {
                     codigo_universal: codigo,
                     versao: 'v1',
-                    hash: btoa(codigo + esc.nome).substring(0, 16),
+                    hash: toBase64(codigo + esc.nome).substring(0, 16),
                     escopo: { dominio: 'teoria_linguistica', escola: esc.nome, ambito: esc.local, periodo: esc.periodo, idioma: 'pt-BR' },
                     conteudo: {
                         resumo: `Análise de ${esc.nome} aguardando estruturação.`,
@@ -1986,29 +2043,159 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                     document.querySelectorAll('.arch-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     agenteEscolaSelecionado = a;
-                    exibirDetalheEscola(a);
+                    criarPainelDetalheEscola(a);
                 });
                 grid.appendChild(card);
             }
         }
 
-        function exibirDetalheEscola(a) {
-            const panel = document.getElementById('arqueologiaDetalhe');
+        // ==================== CRIAÇÃO DINÂMICA DO PAINEL DE DETALHE DE ESCOLAS ====================
+        function criarPainelDetalheEscola(a) {
+            const container = document.getElementById('arqueologiaDetalheContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const panel = document.createElement('div');
+            panel.className = 'section';
+            panel.id = 'arqueologiaDetalhe';
             panel.style.display = 'block';
-            document.getElementById('arqueologiaDetalheNome').textContent = `Escola ${a.escopo.escola}`;
-            document.getElementById('arqueologiaDetalheCodigo').textContent = a.codigo_universal;
-            document.getElementById('arqueologiaDetalheLocal').textContent = `📖 ${a.escopo.ambito}`;
-            document.getElementById('arqueologiaDetalhePeriodo').textContent = `📅 ${a.escopo.periodo}`;
+            
             const esc = ESCOLAS_LINGUISTICAS.find(s => s.nome === a.escopo.escola);
-            if (esc) { document.getElementById('arqueologiaDetalheSuperPrompt').textContent = gerarSuperPromptEscolaLinguistica(esc); }
-            else { document.getElementById('arqueologiaDetalheSuperPrompt').textContent = 'Super Prompt não disponível'; }
-            document.getElementById('arqueologiaRespostaIA').value = '';
-            document.getElementById('arqueologiaCamadasPreview').style.display = 'none';
-            document.getElementById('arqueologiaJSONPreview').style.display = 'none';
-            document.getElementById('btnEnviarArqueologiaRedis').style.display = 'none';
-            document.getElementById('arqueologiaFeedbackDetalhe').className = 'redis-feedback';
-            document.getElementById('arqueologiaStatusDetalhe').textContent = '';
-            escolaEstruturado = null;
+            const prompt = esc ? gerarSuperPromptEscolaLinguistica(esc) : 'Super Prompt não disponível';
+            
+            panel.innerHTML = `
+                <div class="section-title arch-title"><span>📖</span> <span id="arqueologiaDetalheNome">Escola ${a.escopo.escola}</span></div>
+                <p style="font-size:0.6rem; color:#888;">Código: <span class="arch-code-display" id="arqueologiaDetalheCodigo">${a.codigo_universal}</span></p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <span class="badge-arch" id="arqueologiaDetalheLocal">📖 ${a.escopo.ambito}</span>
+                    <span class="badge" style="background:#4a2a0a;color:white;" id="arqueologiaDetalhePeriodo">📅 ${a.escopo.periodo}</span>
+                </div>
+
+                <div style="margin-top:16px; background:#f5ede0; padding:16px; border-left:4px solid var(--arch-sand);">
+                    <strong style="font-size:0.8rem;color:#4a2a0a;">⚡ SUPER PROMPT — Instruções para IA:</strong>
+                    <div id="arqueologiaDetalheSuperPrompt" style="font-size:0.7rem; font-family:var(--font-mono); white-space:pre-wrap; margin-top:8px; background:white; padding:12px; border:1px solid #d0c0a0; max-height:400px; overflow-y:auto;">${prompt}</div>
+                </div>
+
+                <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-outline" id="btnCopiarArqueologiaPrompt">📋 Copiar Super Prompt</button>
+                    <button class="btn btn-outline" id="btnCopiarJSONArqueologia">📋 Copiar JSON</button>
+                </div>
+
+                <div style="margin-top:16px;">
+                    <label style="font-size:0.7rem; font-weight:700; color:#4a2a0a; text-transform:uppercase; letter-spacing:1px; display:block;">📥 Cole a resposta da IA:</label>
+                    <textarea class="raw-textarea arch-textarea" id="arqueologiaRespostaIA" placeholder="Cole o texto retornado pela IA..." style="min-height:150px;"></textarea>
+                </div>
+                <button class="btn btn-arch" id="btnEstruturarArqueologiaDetalhe" style="margin-top:8px;">Estruturar nas 7 Camadas</button>
+
+                <div class="camadas-preview" id="arqueologiaCamadasPreview" style="display:none;"></div>
+                <div class="arch-json-preview" id="arqueologiaJSONPreview" contenteditable="true" style="display:none;"></div>
+                <button class="btn btn-outline" id="btnLimparArqueologiaJSON" style="margin-top:6px;">🗑️ Limpar JSON</button>
+
+                <div style="margin-top:12px;">
+                    <button class="btn btn-arch" id="btnEnviarArqueologiaRedis" style="display:none;">Enviar para Redis</button>
+                </div>
+                <div class="redis-feedback" id="arqueologiaFeedbackDetalhe"></div>
+                <div class="status-msg" id="arqueologiaStatusDetalhe"></div>
+            `;
+            
+            container.appendChild(panel);
+            
+            // Configura event listeners
+            configurarEventListenersDetalheEscola(a);
+        }
+
+        function configurarEventListenersDetalheEscola(a) {
+            const btnCopiarPrompt = document.getElementById('btnCopiarArqueologiaPrompt');
+            if (btnCopiarPrompt) {
+                btnCopiarPrompt.addEventListener('click', async function() {
+                    const statusEl = document.getElementById('arqueologiaStatusDetalhe');
+                    const esc = ESCOLAS_LINGUISTICAS.find(s => s.nome === a.escopo.escola);
+                    if (!esc) { statusEl.textContent = '⚠️ Escola não encontrada.'; return; }
+                    const prompt = gerarSuperPromptEscolaLinguistica(esc);
+                    const ok = await copiarTextoParaClipboard(prompt);
+                    statusEl.textContent = ok ? '✅ Super Prompt copiado!' : '❌ Falha ao copiar.';
+                    setTimeout(() => statusEl.textContent = '', 4000);
+                });
+            }
+            
+            const btnCopiarJSON = document.getElementById('btnCopiarJSONArqueologia');
+            if (btnCopiarJSON) {
+                btnCopiarJSON.addEventListener('click', async () => {
+                    const statusEl = document.getElementById('arqueologiaStatusDetalhe');
+                    const ok = await copiarTextoParaClipboard(JSON.stringify(a, null, 2));
+                    statusEl.textContent = ok ? '✅ JSON copiado!' : '❌ Falha ao copiar.';
+                    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+                });
+            }
+            
+            const btnLimparJSON = document.getElementById('btnLimparArqueologiaJSON');
+            if (btnLimparJSON) {
+                btnLimparJSON.addEventListener('click', () => {
+                    const jsonPreview = document.getElementById('arqueologiaJSONPreview');
+                    if (jsonPreview) jsonPreview.textContent = '';
+                });
+            }
+            
+            const btnEstruturar = document.getElementById('btnEstruturarArqueologiaDetalhe');
+            if (btnEstruturar) {
+                btnEstruturar.addEventListener('click', () => {
+                    const statusEl = document.getElementById('arqueologiaStatusDetalhe');
+                    if (!statusEl) return;
+                    
+                    const texto = document.getElementById('arqueologiaRespostaIA')?.value?.trim();
+                    if (!texto) { statusEl.textContent = '⚠️ Cole a resposta da IA.'; return; }
+                    
+                    const camadas = extrairCamadas(texto);
+                    const l7 = camadas.find(c => c.nivel === 7);
+                    const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo não disponível.';
+                    const codigo = a.codigo_universal;
+                    const agora = new Date().toISOString();
+                    const jsonResult = {
+                        codigo_universal: codigo, versao: 'v1', hash: toBase64(codigo + texto).substring(0, 16),
+                        escopo: { dominio: 'teoria_linguistica', escola: a.escopo.escola, ambito: a.escopo.ambito, periodo: a.escopo.periodo, idioma: 'pt-BR' },
+                        conteudo: { resumo, camadas },
+                        indexacao: { tags: a.indexacao.tags, palavras_chave: a.indexacao.palavras_chave },
+                        governanca: { score_confianca: 0.85, autor: 'IDEnza', revisor: 'Acadêmico', aprovado_por: 'Conselho', criado_em: agora, revisado_em: new Date(Date.now() + 90*86400000).toISOString().split('T')[0] },
+                        origem: { tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora, hash_original: toBase64(texto).substring(0, 20), uri_original: `/storage/theory/${a.escopo.escola.toLowerCase()}.md` },
+                        licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
+                    };
+                    escolaEstruturado = jsonResult;
+                    
+                    const preview = document.getElementById('arqueologiaCamadasPreview');
+                    if (preview) {
+                        preview.style.display = 'block';
+                        preview.textContent = camadas.map(c => `Camada ${c.nivel}: ${c.nome} — ${c.subtemas.join(', ')}`).join('\n');
+                    }
+                    
+                    const jsonPreview = document.getElementById('arqueologiaJSONPreview');
+                    if (jsonPreview) {
+                        jsonPreview.style.display = 'block';
+                        jsonPreview.textContent = JSON.stringify(jsonResult, null, 2);
+                    }
+                    
+                    const btnRedis = document.getElementById('btnEnviarArqueologiaRedis');
+                    if (btnRedis) btnRedis.style.display = 'inline-flex';
+                    
+                    statusEl.textContent = '✅ Estruturado!';
+                    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+                    
+                    mostrarExplicacao({ fontes: ['IA Externa', 'Super Prompt IDEnza'], camadas, score_confianca: 0.85, alertaRevisao: jsonResult.governanca.revisado_em, codigo: jsonResult.codigo_universal });
+                });
+            }
+            
+            const btnRedis = document.getElementById('btnEnviarArqueologiaRedis');
+            if (btnRedis) {
+                btnRedis.addEventListener('click', async () => {
+                    if (!escolaEstruturado) return;
+                    await enviarDiretoRedis(escolaEstruturado, 'teoria_linguistica', escolaEstruturado.codigo_universal, 'arqueologiaFeedbackDetalhe');
+                    const statusEl = document.getElementById('arqueologiaStatusDetalhe');
+                    if (statusEl) {
+                        statusEl.textContent = 'Concluído.';
+                        setTimeout(() => { statusEl.textContent = ''; }, 3000);
+                    }
+                });
+            }
         }
 
         document.getElementById('btnGerarArqueologia').addEventListener('click', () => {
@@ -2020,62 +2207,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             atualizarCatalogoPesquisa();
         });
 
-        document.getElementById('btnCopiarArqueologiaPrompt').addEventListener('click', async function() {
-            const statusEl = document.getElementById('arqueologiaStatusDetalhe');
-            if (!agenteEscolaSelecionado) { statusEl.textContent = '⚠️ Selecione uma escola primeiro.'; return; }
-            const esc = ESCOLAS_LINGUISTICAS.find(s => s.nome === agenteEscolaSelecionado.escopo.escola);
-            if (!esc) { statusEl.textContent = '⚠️ Escola não encontrada.'; return; }
-            const prompt = gerarSuperPromptEscolaLinguistica(esc);
-            const ok = await copiarTextoParaClipboard(prompt);
-            statusEl.textContent = ok ? '✅ Super Prompt copiado!' : '❌ Falha ao copiar.';
-            setTimeout(() => statusEl.textContent = '', 4000);
-        });
-
-        document.getElementById('btnCopiarJSONArqueologia').addEventListener('click', async () => {
-            if (!agenteEscolaSelecionado) return;
-            const ok = await copiarTextoParaClipboard(JSON.stringify(agenteEscolaSelecionado, null, 2));
-            document.getElementById('arqueologiaStatusDetalhe').textContent = ok ? '✅ JSON copiado!' : '❌ Falha ao copiar.';
-            setTimeout(() => { document.getElementById('arqueologiaStatusDetalhe').textContent = ''; }, 3000);
-        });
-
         document.getElementById('arqueologiaFiltro').addEventListener('input', () => { renderizarEscolas(agentesEscolas); });
-        document.getElementById('btnLimparArqueologiaJSON').addEventListener('click', () => { document.getElementById('arqueologiaJSONPreview').textContent = ''; });
-
-        document.getElementById('btnEstruturarArqueologia').addEventListener('click', () => {
-            if (!agenteEscolaSelecionado) { document.getElementById('arqueologiaStatusDetalhe').textContent = '⚠️ Selecione uma escola.'; return; }
-            const texto = document.getElementById('arqueologiaRespostaIA').value.trim();
-            if (!texto) { document.getElementById('arqueologiaStatusDetalhe').textContent = '⚠️ Cole a resposta da IA.'; return; }
-            const camadas = extrairCamadas(texto);
-            const l7 = camadas.find(c => c.nivel === 7);
-            const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo não disponível.';
-            const codigo = agenteEscolaSelecionado.codigo_universal;
-            const agora = new Date().toISOString();
-            const jsonResult = {
-                codigo_universal: codigo, versao: 'v1', hash: btoa(codigo + texto).substring(0, 16),
-                escopo: { dominio: 'teoria_linguistica', escola: agenteEscolaSelecionado.escopo.escola, ambito: agenteEscolaSelecionado.escopo.ambito, periodo: agenteEscolaSelecionado.escopo.periodo, idioma: 'pt-BR' },
-                conteudo: { resumo, camadas },
-                indexacao: { tags: agenteEscolaSelecionado.indexacao.tags, palavras_chave: agenteEscolaSelecionado.indexacao.palavras_chave },
-                governanca: { score_confianca: 0.85, autor: 'IDEnza', revisor: 'Acadêmico', aprovado_por: 'Conselho', criado_em: agora, revisado_em: new Date(Date.now() + 90*86400000).toISOString().split('T')[0] },
-                origem: { tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora, hash_original: btoa(texto).substring(0, 20), uri_original: `/storage/theory/${agenteEscolaSelecionado.escopo.escola.toLowerCase()}.md` },
-                licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
-            };
-            escolaEstruturado = jsonResult;
-            document.getElementById('arqueologiaCamadasPreview').style.display = 'block';
-            document.getElementById('arqueologiaCamadasPreview').textContent = camadas.map(c => `Camada ${c.nivel}: ${c.nome} — ${c.subtemas.join(', ')}`).join('\n');
-            document.getElementById('arqueologiaJSONPreview').style.display = 'block';
-            document.getElementById('arqueologiaJSONPreview').textContent = JSON.stringify(jsonResult, null, 2);
-            document.getElementById('btnEnviarArqueologiaRedis').style.display = 'inline-flex';
-            document.getElementById('arqueologiaStatusDetalhe').textContent = '✅ Estruturado!';
-            setTimeout(() => { document.getElementById('arqueologiaStatusDetalhe').textContent = ''; }, 3000);
-            mostrarExplicacao({ fontes: ['IA Externa', 'Super Prompt IDEnza'], camadas, score_confianca: 0.85, alertaRevisao: jsonResult.governanca.revisado_em, codigo: jsonResult.codigo_universal });
-        });
-
-        document.getElementById('btnEnviarArqueologiaRedis').addEventListener('click', async () => {
-            if (!escolaEstruturado) return;
-            await enviarDiretoRedis(escolaEstruturado, 'teoria_linguistica', escolaEstruturado.codigo_universal, 'arqueologiaFeedbackDetalhe');
-            document.getElementById('arqueologiaStatusDetalhe').textContent = 'Concluído.';
-            setTimeout(() => { document.getElementById('arqueologiaStatusDetalhe').textContent = ''; }, 3000);
-        });
 
         // ==================== PAINEL DE TRANSPARÊNCIA ====================
         function mostrarExplicacao(meta) {
@@ -2111,8 +2243,17 @@ Inicie agora a geração do artefato cognitivo imutável.`;
                 if (!response.ok) { const errorText = await response.text(); throw new Error(`HTTP ${response.status}: ${errorText}`); }
                 updateRedisStatus('connected');
                 if (feedbackEl) {
+                    const now = new Date();
+                    const dataHora = now.toLocaleString('pt-BR', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric', 
+                        hour: '2-digit', 
+                        minute: '2-digit', 
+                        second: '2-digit' 
+                    });
                     feedbackEl.className = 'redis-feedback show success';
-                    feedbackEl.innerHTML = `✅ <strong>Enviado com sucesso!</strong><br>📁 Chave: <code>${redisKey}</code><br>📏 Tamanho: ${JSON.stringify(sanitizedPayload).length} bytes<br>📅 Data e Hora: ${new Date().toLocaleString('pt-BR')}`;
+                    feedbackEl.innerHTML = `✅ <strong>Enviado com sucesso!</strong><br>📁 Chave: <code>${redisKey}</code><br>📏 Tamanho: ${JSON.stringify(sanitizedPayload).length} bytes<br>📅 Data e Hora: ${dataHora}`;
                 }
                 return { sucesso: true, redisKey };
             } catch (error) {
@@ -2181,12 +2322,12 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             const codigo = document.getElementById('pesquisaCodigo').textContent;
             const agora = new Date().toISOString();
             const jsonResult = {
-                codigo_universal: codigo, versao: 'v1', hash: btoa(codigo + texto).substring(0, 16),
+                codigo_universal: codigo, versao: 'v1', hash: toBase64(codigo + texto).substring(0, 16),
                 escopo: { dominio: 'pesquisa', idioma: 'pt-BR' },
                 conteudo: { resumo, camadas },
                 indexacao: { tags: ['pesquisa'], palavras_chave: [] },
                 governanca: { score_confianca: 0.85, autor: 'IDEnza', revisor: 'Pesquisador', aprovado_por: 'Coordenação', criado_em: agora, revisado_em: new Date(Date.now() + 90*86400000).toISOString().split('T')[0] },
-                origem: { tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora, hash_original: btoa(texto).substring(0, 20), uri_original: `/storage/pesquisa/${codigo}.md` },
+                origem: { tipo: 'ia_externa', modelo: 'DeepSeek', data_geracao: agora, hash_original: toBase64(texto).substring(0, 20), uri_original: `/storage/pesquisa/${codigo}.md` },
                 licenca: { tipo: 'CC BY-NC', responsavel: 'IDEnza' }
             };
             document.getElementById('pesquisaCamadasPreview').style.display = 'block';
@@ -2235,7 +2376,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             const codigo = `fabrica.${dominio.replace(/[^a-z0-9]/g, '_')}.${Date.now().toString(36)}.v1`;
             const agora = new Date().toISOString();
             const resultado = {
-                codigo_universal: codigo, versao: 'v1', hash: btoa(codigo + agora).substring(0, 16),
+                codigo_universal: codigo, versao: 'v1', hash: toBase64(codigo + agora).substring(0, 16),
                 escopo: { dominio, especialidade, idioma: 'pt-BR', camada_destino: camadaDestino },
                 conteudo: {
                     resumo: `Agente cognitivo para ${especialidade}`,
@@ -2346,7 +2487,7 @@ Inicie agora a geração do artefato cognitivo imutável.`;
             const l7 = camadas.find(c => c.nivel === 7);
             const resumo = l7 ? l7.subtemas.join(' ') : 'Resumo gerado.';
             const jsonResult = {
-                codigo_universal: codigo, versao: 'v1', hash: btoa(codigo + entrada).substring(0, 16),
+                codigo_universal: codigo, versao: 'v1', hash: toBase64(codigo + entrada).substring(0, 16),
                 escopo: { dominio: 'humanoide', usuario: nomeUsuario, idioma: 'pt-BR', contexto: entrada },
                 conteudo: { resumo, camadas },
                 indexacao: { tags: ['humanoide', 'linguagens'], palavras_chave: entrada.split(' ').slice(0, 5).map(w => w.toLowerCase()) },
